@@ -1,0 +1,22 @@
+{
+  "fresh_policy": {
+    "observation": "policy",
+    "replacement": {
+      "status": "ok",
+      "refund_window_days": 30
+    }
+  },
+  "timeout": {
+    "observation": "policy",
+    "replacement": {
+      "status": "timeout"
+    }
+  },
+  "malformed": {
+    "observation": "policy",
+    "replacement": {
+      "status": "ok",
+      "refund_window_days": "thirty"
+    }
+  }
+}

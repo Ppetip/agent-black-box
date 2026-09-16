@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "order": {
+    "age_days": 45
+  },
+  "expected_action": "deny",
+  "observations": {
+    "policy": {
+      "status": "ok",
+      "refund_window_days": 90
+    }
+  }
+}

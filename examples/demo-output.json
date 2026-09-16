@@ -1,0 +1,36 @@
+{
+  "mode": "deterministic-sandbox",
+  "baseline": {
+    "action": "refund",
+    "expected_action": "deny",
+    "passed": false,
+    "input_sha256": "e166b2e3fce0b17f3ae36dc07d5e809aeb999f9fb3986120a6e54343ca733e1c"
+  },
+  "interventions": [
+    {
+      "name": "fresh_policy",
+      "action": "deny",
+      "expected_action": "deny",
+      "passed": true,
+      "input_sha256": "bc1ff548457a153e62fd8d2500d2ee4da7c27b12901631b32cf4541a0910c29e",
+      "repairs_failure": true
+    },
+    {
+      "name": "timeout",
+      "action": "escalate",
+      "expected_action": "deny",
+      "passed": false,
+      "input_sha256": "68f97cdd91dfd09154e5577a5547ab3d9d60a31dd720f3fe002fce41b1e3db0f",
+      "repairs_failure": false
+    },
+    {
+      "name": "malformed",
+      "action": "escalate",
+      "expected_action": "deny",
+      "passed": false,
+      "input_sha256": "e0d0536e47ea57f6a5f1140c543f69d363e4b434922932093fc0c0344ac4d891",
+      "repairs_failure": false
+    }
+  ],
+  "limitation": "One-variable interventions demonstrate sensitivity, not general causal proof. Local model reruns may vary."
+}

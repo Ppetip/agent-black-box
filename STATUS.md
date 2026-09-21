@@ -21,4 +21,6 @@ Hosted verification: https://github.com/Ppetip/agent-black-box/actions/runs/3559
 
 Budget-fix hosted verification: https://github.com/Ppetip/agent-black-box/actions/runs/35614373431
 
-2026-09-21 18:44 UTC: Ordered observation/decision replay now exposes only the context available at each decision, with interventions targeting event IDs. Local tests and offline CLI checks pass; updated hosted matrix pending. No additional Jev calls.
+2026-09-21 18:44 UTC: Ordered observation/decision replay now exposes only the context available at each decision, with interventions targeting event IDs. Local tests, offline CLI checks, and all four hosted matrix jobs pass. No additional Jev calls.
+
+Feature-pass verification: https://github.com/Ppetip/agent-black-box/actions/runs/35640884254

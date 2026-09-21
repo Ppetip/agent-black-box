@@ -17,4 +17,6 @@ Live smoke responses are not production benchmarks. No model training performed.
 
 Hosted verification: https://github.com/Ppetip/agent-black-box/actions/runs/35590267896
 
-2026-09-21 14:42 UTC budget fix: live clients require an existing ledger; explicit initialization refuses overwrite. Added four regression cases for missing/deleted/empty ledgers and preserved spending. All local tests and CLI checks pass; hosted results pending. No additional Jev calls.
+2026-09-21 14:42 UTC budget fix: live clients require an existing ledger; explicit initialization refuses overwrite. Added four regression cases for missing/deleted/empty ledgers and preserved spending. All local tests, CLI checks, and four hosted Windows/Linux Python 3.11/3.13 jobs pass. No additional Jev calls.
+
+Budget-fix hosted verification: https://github.com/Ppetip/agent-black-box/actions/runs/35614373431

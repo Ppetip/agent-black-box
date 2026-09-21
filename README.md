@@ -100,3 +100,7 @@ It is a connectivity and workflow smoke check, not a quality benchmark or eviden
 training, generalization, speed or production reliability. Re-running it may change results.
 
 Four-way live replay matches the rules baseline: stale policy refunds, fresh policy denies, timeout/malformed policy escalate.
+
+## Continuous verification
+
+[Offline checks](https://github.com/Ppetip/agent-black-box/actions/workflows/offline.yml) run tests and JSON CLI smoke checks on Windows/Linux with Python 3.11/3.13 for pushes and pull requests. Run `python verify_demos.py` locally. Actions are pinned to immutable commits, use read-only permissions, and receive no provider secrets. Jev tests use mocks; the CLI check uses its default dry run. The workflow does not run live inference.

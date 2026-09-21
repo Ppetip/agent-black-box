@@ -25,7 +25,7 @@ For commands using a file under `runs/`, create that directory first (`mkdir run
 python -m unittest discover -s tests -v
 ```
 
-12 tests passed locally on Python 3.13. Other Python versions have not yet been exercised.
+16 tests passed locally on Python 3.13. Other Python versions have not yet been exercised.
 
 ## Architecture
 
@@ -58,3 +58,9 @@ Copyright (c) 2026 Ppetip. Original code is licensed under GNU GPL version 3 onl
 ### Optional local model
 
 Run `python app.py --ollama-model YOUR_INSTALLED_MODEL` with a locally running Ollama server. This is opt-in, sends only the selected trace inputs to `127.0.0.1:11434`, and does not download models. Live inference has not been validated in this release.
+
+## Latest development pass
+
+Batch failure evaluation with unique IDs and failure-only repair-rate denominators.
+
+Run `python suite.py` (or `--input cases.json`). Synthetic intervention coverage is not causal proof.

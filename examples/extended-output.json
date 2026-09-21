@@ -1,0 +1,120 @@
+{
+  "cases": 3,
+  "baseline_failures": 1,
+  "repairable_failures": 1,
+  "repair_rate_among_failures": 1.0,
+  "results": [
+    {
+      "id": "synthetic-age-45",
+      "mode": "deterministic-sandbox",
+      "baseline": {
+        "action": "refund",
+        "expected_action": "deny",
+        "passed": false,
+        "input_sha256": "e166b2e3fce0b17f3ae36dc07d5e809aeb999f9fb3986120a6e54343ca733e1c"
+      },
+      "interventions": [
+        {
+          "name": "fresh_policy",
+          "action": "deny",
+          "expected_action": "deny",
+          "passed": true,
+          "input_sha256": "bc1ff548457a153e62fd8d2500d2ee4da7c27b12901631b32cf4541a0910c29e",
+          "repairs_failure": true
+        },
+        {
+          "name": "timeout",
+          "action": "escalate",
+          "expected_action": "deny",
+          "passed": false,
+          "input_sha256": "68f97cdd91dfd09154e5577a5547ab3d9d60a31dd720f3fe002fce41b1e3db0f",
+          "repairs_failure": false
+        },
+        {
+          "name": "malformed",
+          "action": "escalate",
+          "expected_action": "deny",
+          "passed": false,
+          "input_sha256": "e0d0536e47ea57f6a5f1140c543f69d363e4b434922932093fc0c0344ac4d891",
+          "repairs_failure": false
+        }
+      ],
+      "limitation": "One-variable interventions demonstrate sensitivity, not general causal proof. Local model reruns may vary."
+    },
+    {
+      "id": "synthetic-age-10",
+      "mode": "deterministic-sandbox",
+      "baseline": {
+        "action": "refund",
+        "expected_action": "refund",
+        "passed": true,
+        "input_sha256": "8e5d8d847fe5091df27a13cbaa8671729cbdaf53c932c6e137ca862eb83f9316"
+      },
+      "interventions": [
+        {
+          "name": "fresh_policy",
+          "action": "refund",
+          "expected_action": "refund",
+          "passed": true,
+          "input_sha256": "44baeb719a538b1f2d86cf2c6a4a0ca88e943bfc095a3cda6a1309edbcb6531c",
+          "repairs_failure": false
+        },
+        {
+          "name": "timeout",
+          "action": "escalate",
+          "expected_action": "refund",
+          "passed": false,
+          "input_sha256": "fe441ffd8b89663c3b3b9f4201e329104c7407abbc64301803dd86331022e2b8",
+          "repairs_failure": false
+        },
+        {
+          "name": "malformed",
+          "action": "escalate",
+          "expected_action": "refund",
+          "passed": false,
+          "input_sha256": "8e3ee0149e0d5d6a6aa5261a45bb5c889b4404c7ccf0ac10ea39091e13dd370f",
+          "repairs_failure": false
+        }
+      ],
+      "limitation": "One-variable interventions demonstrate sensitivity, not general causal proof. Local model reruns may vary."
+    },
+    {
+      "id": "synthetic-age-91",
+      "mode": "deterministic-sandbox",
+      "baseline": {
+        "action": "deny",
+        "expected_action": "deny",
+        "passed": true,
+        "input_sha256": "14cf9fe5a45c92a00e12c844a5749e1ef8485db0e0dc7d7e5bae00e0cf583870"
+      },
+      "interventions": [
+        {
+          "name": "fresh_policy",
+          "action": "deny",
+          "expected_action": "deny",
+          "passed": true,
+          "input_sha256": "1b91d62c6a1ba7efbd5a22005456b98b57016a7496278c45dfb1328d5ec760c9",
+          "repairs_failure": false
+        },
+        {
+          "name": "timeout",
+          "action": "escalate",
+          "expected_action": "deny",
+          "passed": false,
+          "input_sha256": "ed33e92fe5d63f74f3ea373a1efd8b2502a02888cc5876d82e7ad30fb00ff750",
+          "repairs_failure": false
+        },
+        {
+          "name": "malformed",
+          "action": "escalate",
+          "expected_action": "deny",
+          "passed": false,
+          "input_sha256": "66e18ab34d92ca7ab072d87265e10c3b2beec7857ae948046cd2d00fce92e144",
+          "repairs_failure": false
+        }
+      ],
+      "limitation": "One-variable interventions demonstrate sensitivity, not general causal proof. Local model reruns may vary."
+    }
+  ],
+  "limitation": "Candidate-intervention coverage on synthetic cases, not causal proof or held-out production performance."
+}

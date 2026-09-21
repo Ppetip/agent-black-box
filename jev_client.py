@@ -46,13 +46,37 @@ def read_config(path):
 class Budget:
     """Atomic permanent reservations. Never reset this ledger between runs/repos."""
     def __init__(self, path):
-        self.path = Path(path)
-        self.path.parent.mkdir(parents=True, exist_ok=True)
-        with closing(sqlite3.connect(self.path, timeout=10)) as db, db:
-            db.execute("CREATE TABLE IF NOT EXISTS attempts(id INTEGER PRIMARY KEY, at TEXT NOT NULL, reserved_micro INTEGER NOT NULL, input_tokens INTEGER, output_tokens INTEGER)")
+        self.path = Path(path).resolve()
+        try:
+            with closing(self._connect()) as db:
+                db.execute("SELECT id,at,reserved_micro,input_tokens,output_tokens FROM attempts LIMIT 0")
+        except sqlite3.Error:
+            raise JevError("Budget ledger is invalid; restore the existing ledger, never reset it") from None
+
+    def _connect(self):
+        # mode=rw refuses to create a missing file, including after construction.
+        try:
+            return sqlite3.connect(self.path.as_uri() + "?mode=rw", uri=True, timeout=10)
+        except sqlite3.Error:
+            raise JevError("Budget ledger unavailable; restore the existing ledger before live calls") from None
+
+    @classmethod
+    def initialize(cls, path):
+        """Explicit first-ever setup only; refuses every existing file."""
+        target = Path(path).resolve()
+        target.parent.mkdir(parents=True, exist_ok=True)
+        try:
+            with target.open("xb"):
+                pass
+        except FileExistsError:
+            raise JevError("Ledger already exists; initialization refused") from None
+        # Leave failed initialization in place for inspection rather than replacing it.
+        with closing(sqlite3.connect(target.as_uri() + "?mode=rw", uri=True)) as db, db:
+            db.execute("CREATE TABLE attempts(id INTEGER PRIMARY KEY, at TEXT NOT NULL, reserved_micro INTEGER NOT NULL, input_tokens INTEGER, output_tokens INTEGER)")
+        return cls(target)
 
     def reserve(self):
-        with closing(sqlite3.connect(self.path, timeout=10)) as db, db:
+        with closing(self._connect()) as db, db:
             db.execute("BEGIN IMMEDIATE")
             spent = db.execute("SELECT COALESCE(SUM(reserved_micro),0) FROM attempts").fetchone()[0]
             if spent + RESERVE_MICRO > CAP_MICRO:
@@ -61,11 +85,11 @@ class Budget:
             return cursor.lastrowid
 
     def record_usage(self, attempt, usage):
-        with closing(sqlite3.connect(self.path, timeout=10)) as db, db:
+        with closing(self._connect()) as db, db:
             db.execute("UPDATE attempts SET input_tokens=?,output_tokens=? WHERE id=?", (usage["input_tokens"], usage["output_tokens"], attempt))
 
     def summary(self):
-        with closing(sqlite3.connect(self.path, timeout=10)) as db, db:
+        with closing(self._connect()) as db, db:
             count, reserved, tokens, unknown = db.execute("SELECT COUNT(*),COALESCE(SUM(reserved_micro),0),COALESCE(SUM(input_tokens),0),COALESCE(SUM(input_tokens IS NULL),0) FROM attempts").fetchone()
         return {"attempts": count, "reserved_usd": reserved / 1e6, "cap_usd": 3,
                 "reported_input_tokens": tokens, "estimated_known_usage_usd": tokens * INPUT_NANO_USD / 1e9,
@@ -141,3 +165,15 @@ def choice(instructions, criteria):
 def selected(payload, fallback):
     answer = payload["answers"]["decision"]
     return answer["choice"] if answer["confidence"] >= .8 else fallback
+
+
+if __name__ == "__main__":
+    import argparse
+    parser = argparse.ArgumentParser(description="First-ever budget setup only. Never use to replace lost spending history.")
+    parser.add_argument("--init-budget", required=True, type=Path)
+    args = parser.parse_args()
+    try:
+        Budget.initialize(args.init_budget)
+    except (JevError, OSError, sqlite3.Error):
+        parser.exit(1, "Initialization refused or failed; preserve and inspect the existing ledger.\n")
+    print("Created a new budget ledger. Share this exact path across all projects.")

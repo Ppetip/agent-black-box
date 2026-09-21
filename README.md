@@ -2,7 +2,7 @@
 
 A flight recorder and counterfactual debugger for tool-using agents.
 
-**v0.1 development prototype Â· Python 3.11+ Â· GPL-3.0-only**
+**v0.1 development prototype Ã‚Â· Python 3.11+ Ã‚Â· GPL-3.0-only**
 
 ## What works
 
@@ -25,7 +25,7 @@ For commands using a file under `runs/`, create that directory first (`mkdir run
 python -m unittest discover -s tests -v
 ```
 
-28 tests pass on Windows and Linux with Python 3.11 and 3.13 (GitHub Actions).
+32 tests pass locally on Python 3.13; the updated hosted matrix is pending. Previous versions passed Windows/Linux Python 3.11/3.13.
 
 ## Architecture
 
@@ -104,3 +104,9 @@ Four-way live replay matches the rules baseline: stale policy refunds, fresh pol
 ## Continuous verification
 
 [Offline checks](https://github.com/Ppetip/agent-black-box/actions/workflows/offline.yml) run tests and JSON CLI smoke checks on Windows/Linux with Python 3.11/3.13 for pushes and pull requests. Run `python verify_demos.py` locally. Actions are pinned to immutable commits, use read-only permissions, and receive no provider secrets. Jev tests use mocks; the CLI check uses its default dry run. The workflow does not run live inference.
+
+### First-time budget setup and recovery
+
+For a genuinely new allowance only, run `python jev_client.py --init-budget /absolute/path/to/jev-budget.sqlite3` once, then use that exact path in `JEV_BUDGET_DB` for every app. Initialization refuses existing files, including empty files. Do not initialize a new ledger to replace lost spending history. Existing users keep their existing ledger and skip setup.
+
+Live clients now open existing ledgers only, including at reservation time. A missing, mistyped, or empty ledger stops calls instead of silently recreating a zero balance. Restore missing history from a trusted backup; do not reset it. This prevents accidental recreation, not deliberate administrator modification or substitution of a different valid database.

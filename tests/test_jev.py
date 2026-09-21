@@ -20,12 +20,46 @@ class JevTests(unittest.TestCase):
         self.root = Path(self.temp.name)
         self.env = self.root / '.env'
         self.db = self.root / 'budget.sqlite3'
+        j.Budget.initialize(self.db)
         self.env.write_text('TYPESAFE_API_KEY=test-only-not-a-secret\nJEV_BUDGET_DB=' + str(self.db), encoding='utf-8')
         self.clock = patch.object(j.dt, 'datetime', wraps=dt.datetime)
         clock = self.clock.start()
         clock.now.return_value = dt.datetime(2026, 9, 21, tzinfo=dt.timezone.utc)
         self.addCleanup(self.clock.stop)
         self.state, self.questions = w.request_data()
+
+
+    def test_missing_ledger_blocks_before_network_without_recreation(self):
+        self.db.unlink()
+        with patch.object(j, 'build_opener') as network:
+            with self.assertRaisesRegex(j.JevError, 'ledger unavailable'):
+                j.Client(self.env).evaluate(self.state, self.questions)
+            network.assert_not_called()
+        self.assertFalse(self.db.exists())
+
+    def test_ledger_removed_after_client_creation_blocks_reservation(self):
+        client = j.Client(self.env)
+        self.db.unlink()
+        with patch.object(j, 'build_opener') as network:
+            with self.assertRaisesRegex(j.JevError, 'ledger unavailable'):
+                client.evaluate(self.state, self.questions)
+            network.assert_not_called()
+        self.assertFalse(self.db.exists())
+
+    def test_initialization_cannot_reset_existing_spending(self):
+        budget = j.Budget(self.db)
+        budget.reserve()
+        before = self.db.read_bytes()
+        with self.assertRaisesRegex(j.JevError, 'already exists'):
+            j.Budget.initialize(self.db)
+        self.assertEqual(self.db.read_bytes(), before)
+        self.assertEqual(budget.summary()['reserved_usd'], .01)
+
+    def test_empty_file_is_not_silently_initialized(self):
+        self.db.write_bytes(b'')
+        with self.assertRaisesRegex(j.JevError, 'ledger is invalid'):
+            j.Client(self.env)
+        self.assertEqual(self.db.read_bytes(), b'')
 
     def payload(self, chosen=None, confidence=.95):
         options = self.questions['decision']['criteria']

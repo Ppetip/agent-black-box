@@ -13,4 +13,6 @@ No other paid compute authorized. Eight initial calls across all projects used 3
 estimated total $0.000138726, with $0.08 conservatively reserved. See README for limits.
 Live smoke responses are not production benchmarks. No model training performed.
 
-2026-09-21 CI pass: added pinned, read-only Windows/Linux Python 3.11/3.13 checks for unit tests and offline CLI contracts. Local Python 3.13 checks pass; hosted results pending publication. No additional Jev calls.
+2026-09-21 CI pass: added pinned, read-only Windows/Linux Python 3.11/3.13 checks for unit tests and offline CLI contracts. Local checks and all four hosted Windows/Linux Python 3.11/3.13 jobs pass. No additional Jev calls.
+
+Hosted verification: https://github.com/Ppetip/agent-black-box/actions/runs/35590267896

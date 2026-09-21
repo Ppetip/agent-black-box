@@ -2,7 +2,7 @@
 
 A flight recorder and counterfactual debugger for tool-using agents.
 
-**v0.1 development prototype · Python 3.11+ · GPL-3.0-only**
+**v0.1 development prototype Â· Python 3.11+ Â· GPL-3.0-only**
 
 ## What works
 
@@ -25,7 +25,7 @@ For commands using a file under `runs/`, create that directory first (`mkdir run
 python -m unittest discover -s tests -v
 ```
 
-28 tests passed locally on Python 3.13. Other Python versions have not yet been exercised.
+28 tests pass on Windows and Linux with Python 3.11 and 3.13 (GitHub Actions).
 
 ## Architecture
 

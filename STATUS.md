@@ -1,11 +1,11 @@
 # Status
 
 Stage: command-line prototype with optional live Jev integration.
-Verified: 32 offline tests pass; dry run and live synthetic Jev workflow pass.
+Verified: 36 offline tests pass; dry run and live synthetic Jev workflow pass.
 
-Latest: Four-way live replay matches the rules baseline: stale policy refunds, fresh policy denies, timeout/malformed policy escalate.
+Latest: Ordered observation/decision replay now exposes only the context available at each decision, with interventions targeting event IDs.
 
-Next: Expand multi-step tool traces and compare Jev sensitivity across held-out failures.
+Next: Add recorded tool-call inputs and compare against regenerated sandbox execution.
 
 Repository: https://github.com/Ppetip/agent-black-box
 Budget: one shared $3 cumulative Jev allowance across the portfolio, never per project or cycle.
@@ -20,3 +20,5 @@ Hosted verification: https://github.com/Ppetip/agent-black-box/actions/runs/3559
 2026-09-21 14:42 UTC budget fix: live clients require an existing ledger; explicit initialization refuses overwrite. Added four regression cases for missing/deleted/empty ledgers and preserved spending. All local tests, CLI checks, and four hosted Windows/Linux Python 3.11/3.13 jobs pass. No additional Jev calls.
 
 Budget-fix hosted verification: https://github.com/Ppetip/agent-black-box/actions/runs/35614373431
+
+2026-09-21 18:44 UTC: Ordered observation/decision replay now exposes only the context available at each decision, with interventions targeting event IDs. Local tests and offline CLI checks pass; updated hosted matrix pending. No additional Jev calls.

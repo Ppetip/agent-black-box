@@ -6,7 +6,7 @@ import subprocess
 import sys
 
 ROOT = Path(__file__).resolve().parent
-COMMANDS = [['app.py'], ['jev_workflow.py'], ['suite.py']]
+COMMANDS = [['app.py'], ['jev_workflow.py'], ['suite.py'], ['timeline.py']]
 
 def main():
     for args in COMMANDS:

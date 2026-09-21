@@ -1,0 +1,49 @@
+{
+  "data": "synthetic-recorded-events",
+  "baseline": {
+    "decisions": [
+      {
+        "event_id": "before",
+        "action": "escalate",
+        "passed": true,
+        "input_sha256": "8c7e48636f8e3ed6ac6a0050affea0559d8a57a8df5fcb752b528966a06f8b87"
+      },
+      {
+        "event_id": "after-stale",
+        "action": "refund",
+        "passed": false,
+        "input_sha256": "e166b2e3fce0b17f3ae36dc07d5e809aeb999f9fb3986120a6e54343ca733e1c"
+      },
+      {
+        "event_id": "after-fresh",
+        "action": "deny",
+        "passed": true,
+        "input_sha256": "bc1ff548457a153e62fd8d2500d2ee4da7c27b12901631b32cf4541a0910c29e"
+      }
+    ],
+    "limitation": "Fixed recorded sequence on synthetic data; no regenerated tool calls, production side effects, or causal proof."
+  },
+  "intervened": {
+    "decisions": [
+      {
+        "event_id": "before",
+        "action": "escalate",
+        "passed": true,
+        "input_sha256": "8c7e48636f8e3ed6ac6a0050affea0559d8a57a8df5fcb752b528966a06f8b87"
+      },
+      {
+        "event_id": "after-stale",
+        "action": "deny",
+        "passed": true,
+        "input_sha256": "bc1ff548457a153e62fd8d2500d2ee4da7c27b12901631b32cf4541a0910c29e"
+      },
+      {
+        "event_id": "after-fresh",
+        "action": "deny",
+        "passed": true,
+        "input_sha256": "bc1ff548457a153e62fd8d2500d2ee4da7c27b12901631b32cf4541a0910c29e"
+      }
+    ],
+    "limitation": "Fixed recorded sequence on synthetic data; no regenerated tool calls, production side effects, or causal proof."
+  }
+}

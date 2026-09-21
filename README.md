@@ -25,7 +25,7 @@ For commands using a file under `runs/`, create that directory first (`mkdir run
 python -m unittest discover -s tests -v
 ```
 
-32 tests pass on Windows and Linux with Python 3.11 and 3.13 (GitHub Actions).
+36 tests pass locally on Python 3.13; updated hosted verification is pending.
 
 ## Architecture
 
@@ -110,3 +110,7 @@ Four-way live replay matches the rules baseline: stale policy refunds, fresh pol
 For a genuinely new allowance only, run `python jev_client.py --init-budget /absolute/path/to/jev-budget.sqlite3` once, then use that exact path in `JEV_BUDGET_DB` for every app. Initialization refuses existing files, including empty files. Do not initialize a new ledger to replace lost spending history. Existing users keep their existing ledger and skip setup.
 
 Live clients now open existing ledgers only, including at reservation time. A missing, mistyped, or empty ledger stops calls instead of silently recreating a zero balance. Restore missing history from a trusted backup; do not reset it. This prevents accidental recreation, not deliberate administrator modification or substitution of a different valid database.
+
+## Latest reliability improvement
+
+Run `python timeline.py`. The synthetic demo shows decisions before policy arrival, after a stale policy, and after a fresh policy. `replay_events(order, events, agent=..., replacements=...)` validates the entire event sequence before callbacks; agents cannot see future events or evaluation labels. Replacements target observation IDs, and later observations supersede earlier ones. This replays a fixed recorded sequence; it does not regenerate tools from changed actions or prove causality.

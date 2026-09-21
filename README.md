@@ -114,3 +114,5 @@ Live clients now open existing ledgers only, including at reservation time. A mi
 ## Latest reliability improvement
 
 Run `python timeline.py`. The synthetic demo shows decisions before policy arrival, after a stale policy, and after a fresh policy. `replay_events(order, events, agent=..., replacements=...)` validates the entire event sequence before callbacks; agents cannot see future events or evaluation labels. Replacements target observation IDs, and later observations supersede earlier ones. This replays a fixed recorded sequence; it does not regenerate tools from changed actions or prove causality.
+
+See [Reading results](docs/RESULTS.md) for outcome fields, denominators, abstentions and the limits of command success.

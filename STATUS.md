@@ -1,11 +1,11 @@
 # Status
 
 Stage: command-line prototype with optional live Jev integration.
-Verified: 36 offline tests pass; dry run and live synthetic Jev workflow pass.
+Verified: 39 offline tests pass; dry run and live synthetic Jev workflow pass.
 
-Latest: Ordered observation/decision replay now exposes only the context available at each decision, with interventions targeting event IDs.
+Latest: Recorded tool calls/results are matched before replay; inputs and pending calls are retained.
 
-Next: Add recorded tool-call inputs and compare against regenerated sandbox execution.
+Next: Add regenerated sandbox tool responses alongside fixed recorded replay.
 
 Repository: https://github.com/Ppetip/agent-black-box
 Budget: one shared $3 cumulative Jev allowance across the portfolio, never per project or cycle.
@@ -26,3 +26,5 @@ Budget-fix hosted verification: https://github.com/Ppetip/agent-black-box/action
 Feature-pass verification: https://github.com/Ppetip/agent-black-box/actions/runs/35640884254
 
 2026-09-21 22:45 UTC: documented how to interpret this tool's outcomes separately from command success. The local Codex runner now shows a concise outcome summary for this project. Verified through common-runner checks and synthetic demo output; histories stay local.
+
+2026-09-22 02:46 UTC: Recorded tool calls/results are matched before replay; inputs and pending calls are retained. Common-runner checks and new route pass locally; hosted verification pending. No new Jev calls.

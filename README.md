@@ -25,7 +25,7 @@ For commands using a file under `runs/`, create that directory first (`mkdir run
 python -m unittest discover -s tests -v
 ```
 
-36 tests pass on Windows and Linux with Python 3.11 and 3.13 (GitHub Actions).
+39 tests pass locally on Python 3.13; updated hosted matrix pending.
 
 ## Architecture
 
@@ -116,3 +116,7 @@ Live clients now open existing ledgers only, including at reservation time. A mi
 Run `python timeline.py`. The synthetic demo shows decisions before policy arrival, after a stale policy, and after a fresh policy. `replay_events(order, events, agent=..., replacements=...)` validates the entire event sequence before callbacks; agents cannot see future events or evaluation labels. Replacements target observation IDs, and later observations supersede earlier ones. This replays a fixed recorded sequence; it does not regenerate tools from changed actions or prove causality.
 
 See [Reading results](docs/RESULTS.md) for outcome fields, denominators, abstentions and the limits of command success.
+
+## New evaluation path
+
+`python timeline.py --tool-events` demonstrates `tool_call` events (id, name, input) and `tool_result` events (id, call_id, value). Each result must match one earlier, unfinished call. Pending calls create no observation. Results update observations in arrival order; replacement keys may target result IDs. Tool inputs stay in the audit output; decisions receive only currently available order/observations. No actual tool is executed.

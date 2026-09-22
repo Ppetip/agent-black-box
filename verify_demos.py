@@ -10,6 +10,8 @@ COMMANDS = [['app.py'], ['jev_workflow.py'], ['suite.py'], ['timeline.py']]
 
 COMMANDS.append(['timeline.py', '--tool-events'])
 
+COMMANDS.append(['regenerate.py'])
+
 def main():
     for args in COMMANDS:
         result = subprocess.run([sys.executable, *args], cwd=ROOT, capture_output=True,

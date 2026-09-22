@@ -1,11 +1,11 @@
 # Status
 
 Stage: command-line prototype with optional live Jev integration.
-Verified: 42 offline tests pass; dry run and live synthetic Jev workflow pass.
+Verified: 46 offline tests pass; dry run and live synthetic Jev workflow pass.
 
-Latest: Replay owns a deep snapshot of order, events and interventions before any callback runs.
+Latest: Run `python regenerate.py` (Codex route `regenerate`).
 
-Next: Add regenerated sandbox tool responses alongside fixed recorded replay.
+Next: Add action-dependent sandbox call planning with independent expectations.
 
 Repository: https://github.com/Ppetip/agent-black-box
 Budget: one shared $3 cumulative Jev allowance across the portfolio, never per project or cycle.
@@ -34,3 +34,5 @@ Evaluation-path verification: https://github.com/Ppetip/agent-black-box/actions/
 2026-09-22 10:48 UTC: Replay owns a deep snapshot of order, events and interventions before any callback runs. Callbacks cannot change later observations or evaluation labels by mutating the original inputs. All intervention values must serialize as strict JSON before the first callback; malformed future inputs cannot leave a partially executed replay. This is deterministic input isolation, not a security sandbox for untrusted Python callbacks. Published and verified: local checks and all four hosted matrix jobs pass. No new Jev calls.
 
 Reliability verification: https://github.com/Ppetip/agent-black-box/actions/runs/35718636178
+
+2026-09-22 22:50 UTC: Run `python regenerate.py` (Codex route `regenerate`). The pure local policy table regenerates result values from recorded `policy_tier` inputs: standard = 30 days, short = 14 days. Pending calls stay pending, unknown tools/inputs are rejected, and values remain hidden until their recorded arrival. The synthetic example improves from 1/2 to 2/2 expected decisions matched. This extends recorded replay with computed tool responses, but does not regenerate the action-dependent call plan or contact external tools. See `examples/extended-evaluation.json`. Common-runner checks pass. Publication and hosted verification pending. No new Jev calls.

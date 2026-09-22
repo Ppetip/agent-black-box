@@ -1,0 +1,110 @@
+{
+  "data": "synthetic-policy-regeneration",
+  "baseline": {
+    "decisions": [
+      {
+        "event_id": "waiting",
+        "action": "escalate",
+        "passed": true,
+        "input_sha256": "8c7e48636f8e3ed6ac6a0050affea0559d8a57a8df5fcb752b528966a06f8b87"
+      },
+      {
+        "event_id": "decision",
+        "action": "refund",
+        "passed": false,
+        "input_sha256": "e166b2e3fce0b17f3ae36dc07d5e809aeb999f9fb3986120a6e54343ca733e1c"
+      }
+    ],
+    "tool_events": [
+      {
+        "id": "call",
+        "type": "tool_call",
+        "name": "policy",
+        "input": {
+          "policy_tier": "standard"
+        }
+      },
+      {
+        "id": "result",
+        "type": "tool_result",
+        "call_id": "call",
+        "value": {
+          "status": "ok",
+          "refund_window_days": 90
+        }
+      }
+    ],
+    "pending_calls": [],
+    "limitation": "Fixed recorded sequence on synthetic data; no regenerated tool calls, production side effects, or causal proof."
+  },
+  "intervened": {
+    "decisions": [
+      {
+        "event_id": "waiting",
+        "action": "escalate",
+        "passed": true,
+        "input_sha256": "8c7e48636f8e3ed6ac6a0050affea0559d8a57a8df5fcb752b528966a06f8b87"
+      },
+      {
+        "event_id": "decision",
+        "action": "deny",
+        "passed": true,
+        "input_sha256": "bc1ff548457a153e62fd8d2500d2ee4da7c27b12901631b32cf4541a0910c29e"
+      }
+    ],
+    "tool_events": [
+      {
+        "id": "call",
+        "type": "tool_call",
+        "name": "policy",
+        "input": {
+          "policy_tier": "standard"
+        }
+      },
+      {
+        "id": "result",
+        "type": "tool_result",
+        "call_id": "call",
+        "value": {
+          "status": "ok",
+          "refund_window_days": 30
+        }
+      }
+    ],
+    "pending_calls": [],
+    "limitation": "Fixed recorded sequence on synthetic data; no regenerated tool calls, production side effects, or causal proof."
+  },
+  "events": [
+    {
+      "id": "call",
+      "type": "tool_call",
+      "name": "policy",
+      "input": {
+        "policy_tier": "standard"
+      }
+    },
+    {
+      "id": "waiting",
+      "type": "decision",
+      "expected_action": "escalate"
+    },
+    {
+      "id": "result",
+      "type": "tool_result",
+      "call_id": "call",
+      "value": {
+        "status": "ok",
+        "refund_window_days": 30
+      }
+    },
+    {
+      "id": "decision",
+      "type": "decision",
+      "expected_action": "deny"
+    }
+  ],
+  "regenerated_result_ids": [
+    "result"
+  ],
+  "limitation": "Built-in synthetic policy table, not live business policy. Result values are regenerated, but tool calls, inputs and result arrival order remain fixed. No action-dependent replanning or external tools."
+}

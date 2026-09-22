@@ -25,7 +25,7 @@ For commands using a file under `runs/`, create that directory first (`mkdir run
 python -m unittest discover -s tests -v
 ```
 
-39 tests pass on Windows and Linux with Python 3.11 and 3.13 (GitHub Actions).
+42 tests pass locally on Windows with Python 3.13; hosted verification for this update is pending.
 
 ## Architecture
 
@@ -120,3 +120,7 @@ See [Reading results](docs/RESULTS.md) for outcome fields, denominators, abstent
 ## New evaluation path
 
 `python timeline.py --tool-events` demonstrates `tool_call` events (id, name, input) and `tool_result` events (id, call_id, value). Each result must match one earlier, unfinished call. Pending calls create no observation. Results update observations in arrival order; replacement keys may target result IDs. Tool inputs stay in the audit output; decisions receive only currently available order/observations. No actual tool is executed.
+
+## Evaluation reliability
+
+Replay owns a deep snapshot of order, events and interventions before any callback runs. Callbacks cannot change later observations or evaluation labels by mutating the original inputs. All intervention values must serialize as strict JSON before the first callback; malformed future inputs cannot leave a partially executed replay. This is deterministic input isolation, not a security sandbox for untrusted Python callbacks.

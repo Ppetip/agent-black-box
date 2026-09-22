@@ -1,9 +1,9 @@
 # Status
 
 Stage: command-line prototype with optional live Jev integration.
-Verified: 39 offline tests pass; dry run and live synthetic Jev workflow pass.
+Verified: 42 offline tests pass; dry run and live synthetic Jev workflow pass.
 
-Latest: Recorded tool calls/results are matched before replay; inputs and pending calls are retained.
+Latest: Replay owns a deep snapshot of order, events and interventions before any callback runs.
 
 Next: Add regenerated sandbox tool responses alongside fixed recorded replay.
 
@@ -30,3 +30,5 @@ Feature-pass verification: https://github.com/Ppetip/agent-black-box/actions/run
 2026-09-22 02:46 UTC: Recorded tool calls/results are matched before replay; inputs and pending calls are retained. Common-runner checks, new route and all four hosted jobs pass. No new Jev calls.
 
 Evaluation-path verification: https://github.com/Ppetip/agent-black-box/actions/runs/35681190864
+
+2026-09-22 10:48 UTC: Replay owns a deep snapshot of order, events and interventions before any callback runs. Callbacks cannot change later observations or evaluation labels by mutating the original inputs. All intervention values must serialize as strict JSON before the first callback; malformed future inputs cannot leave a partially executed replay. This is deterministic input isolation, not a security sandbox for untrusted Python callbacks. Local tests pass; publication and hosted verification pending. No new Jev calls.

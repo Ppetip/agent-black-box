@@ -37,6 +37,8 @@ def validate(events):
 
 def replay_events(order, events, agent=scripted_agent, replacements=None):
     """Replay a fixed recorded sequence; actions do not synthesize future tools."""
+    # Own the replay inputs before invoking any user callback.
+    order, events, replacements = copy.deepcopy((order, events, replacements))
     validate(events)
     if not isinstance(order, dict) or type(order.get("age_days")) is not int or order["age_days"] < 0:
         raise ValueError("order.age_days must be a nonnegative integer")
@@ -44,6 +46,8 @@ def replay_events(order, events, agent=scripted_agent, replacements=None):
     observation_ids = {e["id"] for e in events if e["type"] in {"observation", "tool_result"}}
     if not isinstance(replacements, dict) or not set(replacements) <= observation_ids:
         raise ValueError("replacement must name an observation event ID")
+    canonical(order)
+    canonical(replacements)  # Reject invalid future interventions before any callback.
     observations, decisions, calls, tool_events = {}, [], {}, []
     for event in events:
         if event["type"] == "observation":

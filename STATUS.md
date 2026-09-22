@@ -31,4 +31,6 @@ Feature-pass verification: https://github.com/Ppetip/agent-black-box/actions/run
 
 Evaluation-path verification: https://github.com/Ppetip/agent-black-box/actions/runs/35681190864
 
-2026-09-22 10:48 UTC: Replay owns a deep snapshot of order, events and interventions before any callback runs. Callbacks cannot change later observations or evaluation labels by mutating the original inputs. All intervention values must serialize as strict JSON before the first callback; malformed future inputs cannot leave a partially executed replay. This is deterministic input isolation, not a security sandbox for untrusted Python callbacks. Local tests pass; publication and hosted verification pending. No new Jev calls.
+2026-09-22 10:48 UTC: Replay owns a deep snapshot of order, events and interventions before any callback runs. Callbacks cannot change later observations or evaluation labels by mutating the original inputs. All intervention values must serialize as strict JSON before the first callback; malformed future inputs cannot leave a partially executed replay. This is deterministic input isolation, not a security sandbox for untrusted Python callbacks. Published and verified: local checks and all four hosted matrix jobs pass. No new Jev calls.
+
+Reliability verification: https://github.com/Ppetip/agent-black-box/actions/runs/35718636178

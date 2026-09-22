@@ -25,7 +25,7 @@ For commands using a file under `runs/`, create that directory first (`mkdir run
 python -m unittest discover -s tests -v
 ```
 
-39 tests pass locally on Python 3.13; updated hosted matrix pending.
+39 tests pass on Windows and Linux with Python 3.11 and 3.13 (GitHub Actions).
 
 ## Architecture
 

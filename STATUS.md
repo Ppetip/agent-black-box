@@ -1,7 +1,7 @@
 # Status
 
 Stage: command-line prototype with optional live Jev integration.
-Verified: 59 offline tests and seven CLI paths pass locally; hosted checks for this change pending. Jev smoke results remain historical.
+Verified: 59 offline tests and seven CLI paths pass locally; all four hosted checks pass. Jev smoke results remain historical.
 
 Latest: Bounded workflow simulation generates policy requests from prior observations and records the resulting action path.
 
@@ -45,4 +45,6 @@ Extended evaluation verification: https://github.com/Ppetip/agent-black-box/acti
 
 2026-09-23 14:55 UTC: Added guidance for interpreting saved-check freshness in the optional local Codex runner. A current check validates the replay implementation and its regression fixtures. It does not validate a newly supplied trace, intervention set or external agent callback. The shared runner now records check-source fingerprints and provides read-only status. All five current app checks passed (234 tests total), along with 24 local runner regressions. Run ID: 811900b822db42e390b5e1714afbbe25. App implementation unchanged; this documentation update skips redundant hosted CI. No live calls or new performance claim.
 
-2026-09-23 22:57 UTC: Added workflow.py with explicit input files, generated policy requests, one-time timeout retry, escalation on unavailable/malformed data, trace hashes and a hard decision-step bound. Engine has no external actions; trusted custom callbacks are not sandboxed or time-limited. Eight new regressions pass; no real-task accuracy claim or live calls. Check run 1c0f400feec446d3bdc45fc0533e704c. Hosted verification pending.
+2026-09-23 22:57 UTC: Added workflow.py with explicit input files, generated policy requests, one-time timeout retry, escalation on unavailable/malformed data, trace hashes and a hard decision-step bound. Engine has no external actions; trusted custom callbacks are not sandboxed or time-limited. Eight new regressions pass; no real-task accuracy claim or live calls. Check run 1c0f400feec446d3bdc45fc0533e704c. All four hosted Windows/Linux Python 3.11/3.13 jobs pass.
+
+Workflow verification: https://github.com/Ppetip/agent-black-box/actions/runs/35931551626

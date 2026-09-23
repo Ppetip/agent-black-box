@@ -25,7 +25,7 @@ For commands using a file under `runs/`, create that directory first (`mkdir run
 python -m unittest discover -s tests -v
 ```
 
-51 tests pass on Windows and Linux with Python 3.11 and 3.13 (GitHub Actions).
+59 tests and seven offline CLI paths pass locally; hosted verification for the workflow simulator is pending.
 
 ## Architecture
 
@@ -132,3 +132,11 @@ Run `python regenerate.py` (Codex route `regenerate`). The pure local policy tab
 ## Input boundaries
 
 Single-decision replay now captures its evaluation label before invoking a callback. Diagnosis and suites snapshot and validate every intervention before the first callback, so caller mutations cannot change later trials or turn failures into passes. Invalid late interventions produce no callback execution. This is input isolation, not a security sandbox for arbitrary Python callbacks.
+
+## Bounded workflow simulation
+
+Run `python workflow.py --input /absolute/path/to/workflow.json`. Input contains `order` with only `age_days`, `policy_results` (an ordered array of supplied JSON observations), and optional `max_steps` (1 to 1,000, default 5). The built-in planner requests policy data, retries one timeout, then selects refund, deny or escalation. Each requested policy call consumes the next supplied result; exhausted queues return an explicit exhausted observation. A changed response can therefore change which calls occur, unlike fixed recorded replay.
+
+The CLI requires a file and never discovers private inputs automatically. `examples/workflow-timeout.json` is a clearly synthetic regression fixture, not real-task evidence. No expected-answer labels are accepted in the order. Inputs are validated and copied before callbacks run. The trace records generated actions, input hashes and simulated tool observations; final status is decided, escalated or step-limit. Invalid actions fail with an error. Terminal refund/deny values are decisions only: the engine performs no network calls, money movement or external writes.
+
+The reusable `run_workflow` permits a trusted Python callback with observable order, prior observations and tool-call count. Future supplied results are hidden. Callbacks are not OS-sandboxed, and the step limit cannot interrupt a hanging callback. `engine_external_side_effects: false` describes only the simulation engine. This implements action-dependent call planning over a supplied response queue, not arbitrary real-tool execution or a live model benchmark.

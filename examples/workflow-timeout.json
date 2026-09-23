@@ -1,0 +1,15 @@
+{
+  "order": {
+    "age_days": 45
+  },
+  "policy_results": [
+    {
+      "status": "timeout"
+    },
+    {
+      "status": "ok",
+      "refund_window_days": 30
+    }
+  ],
+  "max_steps": 5
+}

@@ -12,6 +12,8 @@ COMMANDS.append(['timeline.py', '--tool-events'])
 
 COMMANDS.append(['regenerate.py'])
 
+COMMANDS.append(['workflow.py', '--input', 'examples/workflow-timeout.json'])
+
 def main():
     for args in COMMANDS:
         result = subprocess.run([sys.executable, *args], cwd=ROOT, capture_output=True,

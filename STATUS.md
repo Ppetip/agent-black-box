@@ -1,7 +1,7 @@
 # Status
 
 Stage: command-line prototype with optional live Jev integration.
-Verified: 51 offline tests pass locally; hosted verification pending. Previous Jev smoke checks remain historical.
+Verified: 51 offline tests and all four hosted matrix jobs pass. Jev smoke results remain historical; no new live calls.
 
 Latest: Single-decision replay now captures its evaluation label before invoking a callback.
 
@@ -39,4 +39,6 @@ Reliability verification: https://github.com/Ppetip/agent-black-box/actions/runs
 
 Extended evaluation verification: https://github.com/Ppetip/agent-black-box/actions/runs/35795054471
 
-2026-09-23 06:53 UTC: Single-decision replay now captures its evaluation label before invoking a callback. Diagnosis and suites snapshot and validate every intervention before the first callback, so caller mutations cannot change later trials or turn failures into passes. Invalid late interventions produce no callback execution. This is input isolation, not a security sandbox for arbitrary Python callbacks. Checks pass; run ID d93bc8de860c4e44b49cd049c42afc20. No live calls. Hosted verification pending.
+2026-09-23 06:53 UTC: Single-decision replay now captures its evaluation label before invoking a callback. Diagnosis and suites snapshot and validate every intervention before the first callback, so caller mutations cannot change later trials or turn failures into passes. Invalid late interventions produce no callback execution. This is input isolation, not a security sandbox for arbitrary Python callbacks. Checks pass; run ID d93bc8de860c4e44b49cd049c42afc20. No live calls. Hosted verification passed on all four OS/Python combinations.
+
+2026-09-23 10:54 UTC verification follow-up: Published code and all four hosted jobs verified after the earlier approval-review usage-limit interruption. Existing check suites were not rerun solely to create history. Run: https://github.com/Ppetip/agent-black-box/actions/runs/35829382650

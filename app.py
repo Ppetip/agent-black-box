@@ -67,11 +67,29 @@ def replay(trace, agent=scripted_agent, intervention=None):
     action = agent(copy.deepcopy(agent_input))
     if action not in ACTIONS:
         raise ValueError("agent returned an invalid action")
-    return {"action": action, "expected_action": trace["expected_action"],
-            "passed": action == trace["expected_action"],
+    return {"action": action, "expected_action": changed["expected_action"],
+            "passed": action == changed["expected_action"],
             "input_sha256": fingerprint}
 
+def prepare_diagnosis(trace, interventions):
+    """Own and validate the entire batch before any callback can execute."""
+    trace, interventions = copy.deepcopy((trace, interventions))
+    validate(trace)
+    if not isinstance(interventions, dict):
+        raise ValueError("interventions must be an object")
+    for name, change in interventions.items():
+        if (not isinstance(name, str) or not name or not isinstance(change, dict)
+                or set(change) != {"observation", "replacement"}
+                or not isinstance(change["observation"], str)
+                or change["observation"] not in trace["observations"]):
+            raise ValueError("named interventions must replace an existing observation")
+    canonical(trace)
+    canonical(interventions)
+    return trace, interventions
+
+
 def diagnose(trace, interventions, agent=scripted_agent):
+    trace, interventions = prepare_diagnosis(trace, interventions)
     baseline = replay(trace, agent)
     trials = []
     for name, change in interventions.items():

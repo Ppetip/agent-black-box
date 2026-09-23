@@ -3,20 +3,19 @@ import argparse
 import copy
 import json
 from pathlib import Path
-from app import demo, diagnose, scripted_agent, validate
+from app import demo, diagnose, scripted_agent, prepare_diagnosis
 
 
 def evaluate_suite(cases, agent=scripted_agent):
     if not isinstance(cases, list) or not cases or len(cases) > 200:
         raise ValueError("provide between 1 and 200 cases")
+    cases = copy.deepcopy(cases)
     ids = set()
     for case in cases:
         if not isinstance(case, dict) or not isinstance(case.get("id"), str) or not case["id"] or case["id"] in ids:
             raise ValueError("unique case IDs required")
         ids.add(case["id"])
-        validate(case["trace"])
-        if not isinstance(case.get("interventions"), dict):
-            raise ValueError("interventions must be an object")
+        case["trace"], case["interventions"] = prepare_diagnosis(case.get("trace"), case.get("interventions"))
     results = [{"id": c["id"], **diagnose(copy.deepcopy(c["trace"]), copy.deepcopy(c["interventions"]), agent)} for c in cases]
     failed = [r for r in results if not r["baseline"]["passed"]]
     repaired = sum(any(t["repairs_failure"] for t in r["interventions"]) for r in failed)

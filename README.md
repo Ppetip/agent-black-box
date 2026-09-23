@@ -25,7 +25,7 @@ For commands using a file under `runs/`, create that directory first (`mkdir run
 python -m unittest discover -s tests -v
 ```
 
-46 tests pass on Windows and Linux with Python 3.11 and 3.13 (GitHub Actions).
+51 tests pass locally; hosted verification for this input-boundary update is pending.
 
 ## Architecture
 
@@ -128,3 +128,7 @@ Replay owns a deep snapshot of order, events and interventions before any callba
 ## Extended evaluation
 
 Run `python regenerate.py` (Codex route `regenerate`). The pure local policy table regenerates result values from recorded `policy_tier` inputs: standard = 30 days, short = 14 days. Pending calls stay pending, unknown tools/inputs are rejected, and values remain hidden until their recorded arrival. The synthetic example improves from 1/2 to 2/2 expected decisions matched. This extends recorded replay with computed tool responses, but does not regenerate the action-dependent call plan or contact external tools. See `examples/extended-evaluation.json`.
+
+## Input boundaries
+
+Single-decision replay now captures its evaluation label before invoking a callback. Diagnosis and suites snapshot and validate every intervention before the first callback, so caller mutations cannot change later trials or turn failures into passes. Invalid late interventions produce no callback execution. This is input isolation, not a security sandbox for arbitrary Python callbacks.

@@ -1,9 +1,9 @@
 # Status
 
 Stage: command-line prototype with optional live Jev integration.
-Verified: 46 offline tests pass; dry run and live synthetic Jev workflow pass.
+Verified: 51 offline tests pass locally; hosted verification pending. Previous Jev smoke checks remain historical.
 
-Latest: Run `python regenerate.py` (Codex route `regenerate`).
+Latest: Single-decision replay now captures its evaluation label before invoking a callback.
 
 Next: Add action-dependent sandbox call planning with independent expectations.
 
@@ -38,3 +38,5 @@ Reliability verification: https://github.com/Ppetip/agent-black-box/actions/runs
 2026-09-22 22:50 UTC: Run `python regenerate.py` (Codex route `regenerate`). The pure local policy table regenerates result values from recorded `policy_tier` inputs: standard = 30 days, short = 14 days. Pending calls stay pending, unknown tools/inputs are rejected, and values remain hidden until their recorded arrival. The synthetic example improves from 1/2 to 2/2 expected decisions matched. This extends recorded replay with computed tool responses, but does not regenerate the action-dependent call plan or contact external tools. See `examples/extended-evaluation.json`. Common-runner checks pass. Published and verified: all four hosted Windows/Linux Python 3.11/3.13 jobs pass. No new Jev calls.
 
 Extended evaluation verification: https://github.com/Ppetip/agent-black-box/actions/runs/35795054471
+
+2026-09-23 06:53 UTC: Single-decision replay now captures its evaluation label before invoking a callback. Diagnosis and suites snapshot and validate every intervention before the first callback, so caller mutations cannot change later trials or turn failures into passes. Invalid late interventions produce no callback execution. This is input isolation, not a security sandbox for arbitrary Python callbacks. Checks pass; run ID d93bc8de860c4e44b49cd049c42afc20. No live calls. Hosted verification pending.

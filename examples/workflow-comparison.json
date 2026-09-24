@@ -1,0 +1,9 @@
+{
+  "order": {"age_days": 45},
+  "scenarios": [
+    {"id": "synthetic-stale-policy", "policy_results": [{"status": "ok", "refund_window_days": 90}], "expected_action": "deny"},
+    {"id": "synthetic-fresh-policy", "policy_results": [{"status": "ok", "refund_window_days": 30}], "expected_action": "deny"},
+    {"id": "synthetic-timeout-then-fresh", "policy_results": [{"status": "timeout"}, {"status": "ok", "refund_window_days": 30}], "expected_action": "deny"},
+    {"id": "synthetic-exhausted", "policy_results": [], "expected_action": "escalate"}
+  ]
+}

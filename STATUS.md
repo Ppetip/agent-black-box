@@ -1,11 +1,11 @@
 # Status
 
 Stage: command-line prototype with optional live Jev integration.
-Verified: 59 offline tests and seven CLI paths pass locally; all four hosted checks pass. Jev smoke results remain historical.
+Verified: 67 tests and eight offline CLI paths pass locally; hosted checks for this change pending. Jev smoke results remain historical.
 
-Latest: Bounded workflow simulation generates policy requests from prior observations and records the resulting action path.
+Latest: Compare named response queues against explicit caller-supplied expectations and inspect path differences.
 
-Next: Compare alternative supplied response queues against explicitly provided task expectations.
+Next: Collect independent workflow expectations and review differences in a real task-authorized trace.
 
 Repository: https://github.com/Ppetip/agent-black-box
 Budget: one shared $3 cumulative Jev allowance across the portfolio, never per project or cycle.
@@ -48,3 +48,5 @@ Extended evaluation verification: https://github.com/Ppetip/agent-black-box/acti
 2026-09-23 22:57 UTC: Added workflow.py with explicit input files, generated policy requests, one-time timeout retry, escalation on unavailable/malformed data, trace hashes and a hard decision-step bound. Engine has no external actions; trusted custom callbacks are not sandboxed or time-limited. Eight new regressions pass; no real-task accuracy claim or live calls. Check run 1c0f400feec446d3bdc45fc0533e704c. All four hosted Windows/Linux Python 3.11/3.13 jobs pass.
 
 Workflow verification: https://github.com/Ppetip/agent-black-box/actions/runs/35931551626
+
+2026-09-24 11:00 UTC: Added bounded scenario comparison with labels hidden from callback arguments and full preflight validation before any execution. Reports separate expectation matches from changes in final action, action path and tool calls. Local check 77ea8798775e4155839e678c20926e1a passed. Hosted verification pending. Synthetic fixtures verify code behavior only; no live calls.

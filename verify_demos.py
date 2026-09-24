@@ -13,6 +13,7 @@ COMMANDS.append(['timeline.py', '--tool-events'])
 COMMANDS.append(['regenerate.py'])
 
 COMMANDS.append(['workflow.py', '--input', 'examples/workflow-timeout.json'])
+COMMANDS.append(['workflow_compare.py', '--input', 'examples/workflow-comparison.json'])
 
 def main():
     for args in COMMANDS:

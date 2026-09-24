@@ -25,7 +25,7 @@ For commands using a file under `runs/`, create that directory first (`mkdir run
 python -m unittest discover -s tests -v
 ```
 
-59 tests and seven offline CLI paths pass on Windows and Linux with Python 3.11 and 3.13 (GitHub Actions).
+67 tests and eight offline CLI paths pass locally; hosted workflow-comparison verification is pending.
 
 ## Architecture
 
@@ -140,3 +140,11 @@ Run `python workflow.py --input /absolute/path/to/workflow.json`. Input contains
 The CLI requires a file and never discovers private inputs automatically. `examples/workflow-timeout.json` is a clearly synthetic regression fixture, not real-task evidence. No expected-answer labels are accepted in the order. Inputs are validated and copied before callbacks run. The trace records generated actions, input hashes and simulated tool observations; final status is decided, escalated or step-limit. Invalid actions fail with an error. Terminal refund/deny values are decisions only: the engine performs no network calls, money movement or external writes.
 
 The reusable `run_workflow` permits a trusted Python callback with observable order, prior observations and tool-call count. Future supplied results are hidden. Callbacks are not OS-sandboxed, and the step limit cannot interrupt a hanging callback. `engine_external_side_effects: false` describes only the simulation engine. This implements action-dependent call planning over a supplied response queue, not arbitrary real-tool execution or a live model benchmark.
+
+## Compare supplied workflow scenarios
+
+Run `python workflow_compare.py --input examples/workflow-comparison.json` for a synthetic regression example, or supply an explicitly authorized local file. Input has one `order`, optional `max_steps`, and 1 to 100 `scenarios`. Each scenario contains a unique nonempty `id`, a `policy_results` queue, and an explicit `expected_action`: `refund`, `deny`, `escalate`, or null to expect the step limit. The schema rejects extra fields. All queues and labels are copied and validated before any callback executes.
+
+The report shows each full workflow, whether its final action matches the supplied expectation, and changes relative to the first scenario: final action, action sequence and tool-call count. `match_rate` divides matches by evaluated scenarios; it does not turn command success into task success. The checked-in example deliberately includes a stale-policy failure. Its labels are authored regression expectations, not independent judgments or measured model accuracy.
+
+Each simulated run starts with empty engine observations and call count. No external tool runs, refunds or network requests occur. Invalid input stops before execution. A custom Python callback failure propagates and stops the comparison; arbitrary callback side effects cannot be rolled back. Custom callbacks are trusted code, may retain their own state across scenarios and are not sandboxed or interrupted by the step bound. Input isolation hides labels and future responses from callback arguments; it does not restrict what trusted Python code can access independently. Comparing several changed responses does not identify a minimal intervention or prove causality.

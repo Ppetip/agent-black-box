@@ -18,7 +18,7 @@ def planner(context):
     return scripted_agent(context)
 
 
-def run_workflow(order, policy_results, agent=planner, max_steps=5):
+def prepare_inputs(order, policy_results, max_steps=5):
     if (not isinstance(order, dict) or set(order) != {"age_days"}
             or type(order["age_days"]) is not int or order["age_days"] < 0):
         raise ValueError("order must contain only nonnegative integer age_days")
@@ -28,6 +28,11 @@ def run_workflow(order, policy_results, agent=planner, max_steps=5):
         raise ValueError("max_steps must be an integer from 1 to 1000")
     order, policy_results = copy.deepcopy((order, policy_results))
     canonical(policy_results)  # Preflight the entire queue before invoking callbacks.
+    return order, policy_results, max_steps
+
+
+def run_workflow(order, policy_results, agent=planner, max_steps=5):
+    order, policy_results, max_steps = prepare_inputs(order, policy_results, max_steps)
     observations, trace, calls = {}, [], 0
     status, final_action = "step-limit", None
     for index in range(max_steps):

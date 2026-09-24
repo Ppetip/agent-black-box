@@ -1,7 +1,7 @@
 # Status
 
 Stage: command-line prototype with optional live Jev integration.
-Verified: 67 tests and eight offline CLI paths pass locally; hosted checks for this change pending. Jev smoke results remain historical.
+Verified: 67 tests and eight offline CLI paths pass locally; all four hosted checks pass. Jev smoke results remain historical.
 
 Latest: Compare named response queues against explicit caller-supplied expectations and inspect path differences.
 
@@ -49,4 +49,6 @@ Extended evaluation verification: https://github.com/Ppetip/agent-black-box/acti
 
 Workflow verification: https://github.com/Ppetip/agent-black-box/actions/runs/35931551626
 
-2026-09-24 11:00 UTC: Added bounded scenario comparison with labels hidden from callback arguments and full preflight validation before any execution. Reports separate expectation matches from changes in final action, action path and tool calls. Local check 77ea8798775e4155839e678c20926e1a passed. Hosted verification pending. Synthetic fixtures verify code behavior only; no live calls.
+2026-09-24 11:00 UTC: Added bounded scenario comparison with labels hidden from callback arguments and full preflight validation before any execution. Reports separate expectation matches from changes in final action, action path and tool calls. Local check 77ea8798775e4155839e678c20926e1a passed. All four hosted Windows/Linux Python 3.11/3.13 jobs pass. Synthetic fixtures verify code behavior only; no live calls.
+
+Workflow-comparison verification: https://github.com/Ppetip/agent-black-box/actions/runs/35991001742

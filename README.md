@@ -25,7 +25,7 @@ For commands using a file under `runs/`, create that directory first (`mkdir run
 python -m unittest discover -s tests -v
 ```
 
-67 tests and eight offline CLI paths pass on Windows and Linux with Python 3.11 and 3.13 (GitHub Actions).
+73 tests and nine offline CLI paths pass locally; hosted HTML-report verification is pending.
 
 ## Architecture
 
@@ -148,3 +148,11 @@ Run `python workflow_compare.py --input examples/workflow-comparison.json` for a
 The report shows each full workflow, whether its final action matches the supplied expectation, and changes relative to the first scenario: final action, action sequence and tool-call count. `match_rate` divides matches by evaluated scenarios; it does not turn command success into task success. The checked-in example deliberately includes a stale-policy failure. Its labels are authored regression expectations, not independent judgments or measured model accuracy.
 
 Each simulated run starts with empty engine observations and call count. No external tool runs, refunds or network requests occur. Invalid input stops before execution. A custom Python callback failure propagates and stops the comparison; arbitrary callback side effects cannot be rolled back. Custom callbacks are trusted code, may retain their own state across scenarios and are not sandboxed or interrupted by the step bound. Input isolation hides labels and future responses from callback arguments; it does not restrict what trusted Python code can access independently. Comparing several changed responses does not identify a minimal intervention or prove causality.
+
+## Read a workflow comparison in your browser
+
+Run `python comparison_report.py --input examples/workflow-comparison.json --output /absolute/path/to/new-report.html`, then open that file in a browser. Replace the example with an explicitly authorized local scenario file to inspect your own supplied data. The page shows matched versus missed expectations, expected/actual actions, call-count and action-path differences from the first scenario, and expandable step details. Its summary describes supplied expectations, not production success or formal causality. The included example is synthetic.
+
+The renderer uses the built-in local planner, not arbitrary callbacks or external tools. It validates all scenarios before creating the output, refuses to overwrite an existing file, and reports invalid input or file errors with a nonzero CLI exit. The HTML uses escaped text, no scripts, no external resources and a restrictive content policy. Opening or expanding a trace does not rerun the workflow. No server or package installation is required.
+
+Reports include supplied scenario names and simulated observations, so keep real-input reports private unless their exact contents are authorized for sharing. The renderer does not remove secrets from input text. Generated reports are local artifacts, not automatically published files. This is a readable static comparison view; it does not edit scenarios, select a minimal intervention or execute a refund.

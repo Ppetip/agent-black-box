@@ -1,7 +1,7 @@
 # Status
 
 Stage: command-line prototype with optional live Jev integration.
-Verified: 73 tests and nine offline CLI paths pass locally; hosted checks for this change pending. Jev smoke results remain historical.
+Verified: 73 tests and nine offline CLI paths pass locally; all four hosted checks pass. Jev smoke results remain historical.
 
 Latest: Standalone HTML comparison reports show expectation matches, path differences and expandable traces.
 
@@ -53,4 +53,6 @@ Workflow verification: https://github.com/Ppetip/agent-black-box/actions/runs/35
 
 Workflow-comparison verification: https://github.com/Ppetip/agent-black-box/actions/runs/35991001742
 
-2026-09-26 23:00 UTC: Added a script-free local comparison report with escaped input and exclusive output creation. No server, external assets, live calls or action execution. Local check cea19b5ee5ce458fb6317617222ae0d6 passed. Hosted verification pending. Synthetic fixtures exercise report behavior only.
+2026-09-26 23:00 UTC: Added a script-free local comparison report with escaped input and exclusive output creation. No server, external assets, live calls or action execution. Local check cea19b5ee5ce458fb6317617222ae0d6 passed. All four hosted Windows/Linux Python 3.11/3.13 jobs pass. Synthetic fixtures exercise report behavior only.
+
+HTML-report verification: https://github.com/Ppetip/agent-black-box/actions/runs/36278385483

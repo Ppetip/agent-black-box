@@ -56,3 +56,5 @@ Workflow-comparison verification: https://github.com/Ppetip/agent-black-box/acti
 2026-09-26 23:00 UTC: Added a script-free local comparison report with escaped input and exclusive output creation. No server, external assets, live calls or action execution. Local check cea19b5ee5ce458fb6317617222ae0d6 passed. All four hosted Windows/Linux Python 3.11/3.13 jobs pass. Synthetic fixtures exercise report behavior only.
 
 HTML-report verification: https://github.com/Ppetip/agent-black-box/actions/runs/36278385483
+
+2026-09-27 07:00 UTC: The optional local AI Lab integration now exposes workflow and workflow-comparison routes, with explicit --input support and input-origin labels. Standalone commands remain available in this repository. All five common-runner check routes passed (280 app tests and 28 CLI paths total), plus 32 shared-runner regressions. Check run ffd76d632c9246f4969e0cbbbacb538f. Shared integration is local to the AI Lab workspace, not included in a standalone repository clone. Existing app-source hosted results remain applicable; this documentation update skips redundant hosted CI. No paid calls.

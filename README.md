@@ -156,3 +156,7 @@ Run `python comparison_report.py --input examples/workflow-comparison.json --out
 The renderer uses the built-in local planner, not arbitrary callbacks or external tools. It validates all scenarios before creating the output, refuses to overwrite an existing file, and reports invalid input or file errors with a nonzero CLI exit. The HTML uses escaped text, no scripts, no external resources and a restrictive content policy. Opening or expanding a trace does not rerun the workflow. No server or package installation is required.
 
 Reports include supplied scenario names and simulated observations, so keep real-input reports private unless their exact contents are authorized for sharing. The renderer does not remove secrets from input text. Generated reports are local artifacts, not automatically published files. This is a readable static comparison view; it does not edit scenarios, select a minimal intervention or execute a refund.
+
+## Optional local CLI integration
+
+In an AI Lab workspace with the optional local runner, use `python lab.py run agent-black-box workflow` or `workflow-comparison`. These default to synthetic examples. Add `--input /absolute/path/to/authorized.json` for explicitly supplied scenario data. Saved results mark the input origin and distinguish command completion from matched expectations. This repository does not bundle lab.py; its standalone workflow.py and workflow_compare.py commands remain the direct entry points.

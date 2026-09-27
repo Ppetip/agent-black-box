@@ -62,3 +62,5 @@ HTML-report verification: https://github.com/Ppetip/agent-black-box/actions/runs
 2026-09-27 15:00 UTC: Added deterministic single-response deletion reduction with explicit expectations, preflight validation, original-index audit and a 200-trial ceiling including baseline. No external actions. Local check bd0abeeab18e4612a54eb3b92fb2cff3 passed. All four hosted Windows/Linux Python 3.11/3.13 jobs pass. Synthetic regression evidence only; no formal causality or globally minimal-case claim.
 
 Response-reduction verification: https://github.com/Ppetip/agent-black-box/actions/runs/36328492026
+
+2026-09-27 19:00 UTC: The optional local runner now exposes reduce with authorized --input support, private saved reports and explicit summaries for matched baseline, trial limit and single-deletion minimality. Standalone reducer implementation is unchanged. All five common checks pass (288 app tests, 29 CLI paths), plus 38 shared-runner regressions. Check run 6cbc7ab369f64438ac08e746849d49a7. Shared integration stays local to the AI Lab workspace. App-source hosted evidence is unchanged; documentation-only update skips redundant CI. No live calls.

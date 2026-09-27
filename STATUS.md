@@ -1,7 +1,7 @@
 # Status
 
 Stage: command-line prototype with optional live Jev integration.
-Verified: 81 tests and ten offline CLI paths pass locally; hosted checks for this change pending. Jev smoke results remain historical.
+Verified: 81 tests and ten offline CLI paths pass locally; all four hosted checks pass. Jev smoke results remain historical.
 
 Latest: Bounded response-queue reduction preserves the original failed terminal outcome and reports minimality limits.
 
@@ -59,4 +59,6 @@ HTML-report verification: https://github.com/Ppetip/agent-black-box/actions/runs
 
 2026-09-27 07:00 UTC: The optional local AI Lab integration now exposes workflow and workflow-comparison routes, with explicit --input support and input-origin labels. Standalone commands remain available in this repository. All five common-runner check routes passed (280 app tests and 28 CLI paths total), plus 32 shared-runner regressions. Check run ffd76d632c9246f4969e0cbbbacb538f. Shared integration is local to the AI Lab workspace, not included in a standalone repository clone. Existing app-source hosted results remain applicable; this documentation update skips redundant hosted CI. No paid calls.
 
-2026-09-27 15:00 UTC: Added deterministic single-response deletion reduction with explicit expectations, preflight validation, original-index audit and a 200-trial ceiling including baseline. No external actions. Local check bd0abeeab18e4612a54eb3b92fb2cff3 passed. Hosted verification pending. Synthetic regression evidence only; no formal causality or globally minimal-case claim.
+2026-09-27 15:00 UTC: Added deterministic single-response deletion reduction with explicit expectations, preflight validation, original-index audit and a 200-trial ceiling including baseline. No external actions. Local check bd0abeeab18e4612a54eb3b92fb2cff3 passed. All four hosted Windows/Linux Python 3.11/3.13 jobs pass. Synthetic regression evidence only; no formal causality or globally minimal-case claim.
+
+Response-reduction verification: https://github.com/Ppetip/agent-black-box/actions/runs/36328492026

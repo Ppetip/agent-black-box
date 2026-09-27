@@ -1,0 +1,9 @@
+{
+  "order": {"age_days": 45},
+  "policy_results": [
+    {"status": "timeout"},
+    {"status": "ok", "refund_window_days": 90},
+    {"status": "ok", "refund_window_days": 30}
+  ],
+  "expected_action": "deny"
+}

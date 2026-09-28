@@ -51,3 +51,9 @@ If the baseline already matches the expectation, status is `not-a-failure` and n
 `one-deletion-minimal` means no single remaining response can be removed while preserving that status/action pair. `trial-limit` means the bounded search stopped without establishing that property. Neither means globally smallest or identifies the true cause. Queue deletion can change which call consumes a response, and preserving an outcome does not preserve its reasoning or failure cause. An empty queue can itself preserve an escalation failure; do not interpret that as a relevant source observation. Supplied expected actions still require independent review.
 
 The checked-in example removes a timeout and an unused response while retaining the stale policy response that still leads to a refund. This is a controlled code regression, not evidence about a real agent's failure. Keep reports containing private supplied observations local.
+
+## Finite reduction invariant checks
+
+Two unittest methods enumerate a restricted synthetic space: all 85 response queues of length zero through three over timeout, null, 30-day and 90-day policy responses; step bounds 1, 2 and 3; and all four expected-action labels. This produces 1,020 complete-search cases, plus 3,060 cases with trial budgets 1, 2 and 3. A separately coded terminal-outcome oracle checks the baseline, every attempted deletion, retained indices, preserved outcome and single-deletion minimality when claimed. It does not call the production planner to calculate those expected terminal outcomes.
+
+These checks passed for the fixed 45-day order. They do not cover arbitrary queues, values, callback planners or real models, and do not establish causality or a globally smallest case. The two methods count as two tests in the suite; generated cases are not independent performance samples. Run `python -m unittest discover -s tests -p test_reduction_invariants.py -v` to reproduce them locally without network access.

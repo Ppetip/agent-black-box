@@ -25,7 +25,7 @@ For commands using a file under `runs/`, create that directory first (`mkdir run
 python -m unittest discover -s tests -v
 ```
 
-81 tests and ten offline CLI paths pass on Windows and Linux with Python 3.11 and 3.13 (GitHub Actions).
+83 tests and ten offline CLI paths pass locally; hosted verification for finite reduction checks is pending.
 
 ## Architecture
 
@@ -172,3 +172,9 @@ If the baseline already matches the expectation, status is `not-a-failure` and n
 The checked-in example removes a timeout and an unused response while retaining the stale policy response that still leads to a refund. This is a controlled code regression, not evidence about a real agent's failure. Keep reports containing private supplied observations local.
 
 With the optional local AI Lab workspace runner, use `python lab.py run agent-black-box reduce` for the synthetic example, or add `--input ABSOLUTE_PATH` for authorized data. The saved report separates command completion from reduction status, trial limits and unverified causal claims. Use `python lab.py report RUN_ID` to inspect it. The shared runner is not bundled in this repository; standalone reduce_workflow.py remains the direct entry point.
+
+## Finite reduction invariant checks
+
+Two unittest methods enumerate a restricted synthetic space: all 85 response queues of length zero through three over timeout, null, 30-day and 90-day policy responses; step bounds 1, 2 and 3; and all four expected-action labels. This produces 1,020 complete-search cases, plus 3,060 cases with trial budgets 1, 2 and 3. A separately coded terminal-outcome oracle checks the baseline, every attempted deletion, retained indices, preserved outcome and single-deletion minimality when claimed. It does not call the production planner to calculate those expected terminal outcomes.
+
+These checks passed for the fixed 45-day order. They do not cover arbitrary queues, values, callback planners or real models, and do not establish causality or a globally smallest case. The two methods count as two tests in the suite; generated cases are not independent performance samples. Run `python -m unittest discover -s tests -p test_reduction_invariants.py -v` to reproduce them locally without network access.

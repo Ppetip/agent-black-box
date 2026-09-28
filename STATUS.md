@@ -1,7 +1,7 @@
 # Status
 
 Stage: command-line prototype with optional live Jev integration.
-Verified: 81 tests and ten offline CLI paths pass locally; all four hosted checks pass. Jev smoke results remain historical.
+Verified: 83 tests and ten offline CLI paths pass locally; hosted checks for this change pending. Jev smoke results remain historical.
 
 Latest: Bounded response-queue reduction preserves the original failed terminal outcome and reports minimality limits.
 
@@ -64,3 +64,5 @@ HTML-report verification: https://github.com/Ppetip/agent-black-box/actions/runs
 Response-reduction verification: https://github.com/Ppetip/agent-black-box/actions/runs/36328492026
 
 2026-09-27 19:00 UTC: The optional local runner now exposes reduce with authorized --input support, private saved reports and explicit summaries for matched baseline, trial limit and single-deletion minimality. Standalone reducer implementation is unchanged. All five common checks pass (288 app tests, 29 CLI paths), plus 38 shared-runner regressions. Check run 6cbc7ab369f64438ac08e746849d49a7. Shared integration stays local to the AI Lab workspace. App-source hosted evidence is unchanged; documentation-only update skips redundant CI. No live calls.
+
+2026-09-28 03:00 UTC: Added two finite-space invariant tests covering 1,020 complete-search and 3,060 short-budget cases, using a separate terminal-outcome oracle for the fixed synthetic alphabet. Checks verify audit consistency, retained outcomes, budgets and claimed single-deletion minimality. Local check ff4d336a483948379fd4904efe645b95 passed. Hosted verification pending. Reducer implementation unchanged; no real-agent performance or causal claim.

@@ -1,7 +1,7 @@
 # Status
 
 Stage: command-line prototype with optional live Jev integration.
-Verified: 85 tests and ten offline CLI paths pass locally; hosted checks for this change pending. Jev smoke results remain historical.
+Verified: 85 tests and ten offline CLI paths pass locally; all four hosted checks pass. Jev smoke results remain historical.
 
 Latest: Bounded response-queue reduction preserves the original failed terminal outcome and reports minimality limits.
 
@@ -69,4 +69,6 @@ Response-reduction verification: https://github.com/Ppetip/agent-black-box/actio
 
 Finite-reduction verification: https://github.com/Ppetip/agent-black-box/actions/runs/36372271156
 
-2026-09-28 15:00 UTC: Official TypeSafe model pricing rechecked; the pinned Jev rate and free output are unchanged. Review window refreshed to September 28 through October 4 UTC, failing closed October 5. One-cent permanent reservation and the existing shared $3 cap/ledger remain unchanged. Added two mocked date-boundary tests; existing mocked calls now use the review-start date. Local check 10d3bcc5c43a42b1b5bbf4b998834a5e passed. Hosted verification pending. No live calls or ledger access during this update; historical smoke results remain historical.
+2026-09-28 15:00 UTC: Official TypeSafe model pricing rechecked; the pinned Jev rate and free output are unchanged. Review window refreshed to September 28 through October 4 UTC, failing closed October 5. One-cent permanent reservation and the existing shared $3 cap/ledger remain unchanged. Added two mocked date-boundary tests; existing mocked calls now use the review-start date. Local check 10d3bcc5c43a42b1b5bbf4b998834a5e passed. All four hosted Windows/Linux Python 3.11/3.13 jobs pass. No live calls or ledger access during this update; historical smoke results remain historical.
+
+Pricing-review verification: https://github.com/Ppetip/agent-black-box/actions/runs/36441134665

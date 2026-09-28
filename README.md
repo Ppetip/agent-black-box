@@ -25,7 +25,7 @@ For commands using a file under `runs/`, create that directory first (`mkdir run
 python -m unittest discover -s tests -v
 ```
 
-83 tests and ten offline CLI paths pass on Windows and Linux with Python 3.11 and 3.13 (GitHub Actions).
+85 tests and ten offline CLI paths pass locally; hosted verification for the pricing review is pending.
 
 ## Architecture
 
@@ -84,11 +84,11 @@ automatically. Concurrent processes share an atomic SQLite reservation. Never re
 delete, replace or split the ledger to regain budget. This guard covers this client,
 not unrelated account use. Provider billing remains authoritative.
 
-[Official TypeSafe pricing](https://docs.typesafe.ai/models) checked 2026-09-21 lists
+[Official TypeSafe pricing](https://docs.typesafe.ai/models) checked 2026-09-28 lists
 $0.042 per million input tokens and free output. One cent exceeds a full 65,536-input-token
 request at that rate; the client also limits serialized input to 16KB. Estimates use
 reported input tokens and exclude unknown failed-request usage. Calls fail closed on
-2026-09-28 until pricing and the reservation bound are reviewed. Never extend the review
+2026-10-05 until pricing and the reservation bound are reviewed. Never extend the review
 date without checking the provider's current terms.
 
 [The HTTP API](https://docs.typesafe.ai/api) uses the fixed official TypeSafe endpoint.

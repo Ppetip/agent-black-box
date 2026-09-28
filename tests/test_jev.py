@@ -24,7 +24,7 @@ class JevTests(unittest.TestCase):
         self.env.write_text('TYPESAFE_API_KEY=test-only-not-a-secret\nJEV_BUDGET_DB=' + str(self.db), encoding='utf-8')
         self.clock = patch.object(j.dt, 'datetime', wraps=dt.datetime)
         clock = self.clock.start()
-        clock.now.return_value = dt.datetime(2026, 9, 21, tzinfo=dt.timezone.utc)
+        clock.now.return_value = dt.datetime.combine(j.PRICE_CHECKED, dt.time(), dt.timezone.utc)
         self.addCleanup(self.clock.stop)
         self.state, self.questions = w.request_data()
 

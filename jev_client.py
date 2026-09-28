@@ -13,8 +13,8 @@ MODEL = "jev-1.13.0"
 ENDPOINT = "https://api.typesafe.ai/v1/systemone"
 CAP_MICRO = 3_000_000
 RESERVE_MICRO = 10_000  # One cent per attempt, never refunded, including failures.
-PRICE_CHECKED = dt.date(2026, 9, 21)
-PRICE_EXPIRES = dt.date(2026, 9, 28)
+PRICE_CHECKED = dt.date(2026, 9, 28)
+PRICE_EXPIRES = dt.date(2026, 10, 5)
 # Official rate: $0.042/M input tokens; output free. Not an invoice.
 INPUT_NANO_USD = 42
 

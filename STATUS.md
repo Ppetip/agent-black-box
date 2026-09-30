@@ -1,7 +1,7 @@
 # Status
 
 Stage: command-line prototype with optional live Jev integration.
-Verified: 89 tests and eleven offline CLI paths pass locally; hosted checks for this change pending. Jev smoke results remain historical.
+Verified: 89 tests and eleven offline CLI paths pass locally; all four hosted checks pass. Jev smoke results remain historical.
 
 Latest: Explicit reproducer export saves a rerunnable reduced case while preserving input files and execution bounds.
 
@@ -75,4 +75,6 @@ Pricing-review verification: https://github.com/Ppetip/agent-black-box/actions/r
 
 2026-09-29 23:00 UTC: Shared-runner routing changes pass existing replay, workflow and reduction checks; flagship implementation is unchanged. All five common checks pass (312 app tests, 31 CLI paths), plus 44 shared-runner regressions. Check run 5e891ea4ba6c48658f9dcb20c00c1d26. Shared integration stays local to the AI Lab workspace; app-source hosted evidence is unchanged. Documentation-only update skips redundant CI. No live calls.
 
-2026-09-30 11:02 UTC: Optional --reproducer-output creates a new JSON reproducer only after validated local reduction. It preserves the reduced input plus original max_trials; default output remains read-only. Existing source/target files and directories are protected by exclusive creation, and parents are not created. Four new CLI regression methods verify rerun equality and bounds for complete/trial-limited reductions, no-overwrite behavior, invalid input/missing-parent failures, and unchanged default/nonfailure semantics. Outputs retain supplied observations and must stay private when inputs are private. Required common-runner check 1dfbc8f4e3b842c499994fe504c48af1 passes 89 tests and eleven CLI paths. Hosted verification pending. No external actions, paid calls or ledger changes.
+2026-09-30 11:02 UTC: Optional --reproducer-output creates a new JSON reproducer only after validated local reduction. It preserves the reduced input plus original max_trials; default output remains read-only. Existing source/target files and directories are protected by exclusive creation, and parents are not created. Four new CLI regression methods verify rerun equality and bounds for complete/trial-limited reductions, no-overwrite behavior, invalid input/missing-parent failures, and unchanged default/nonfailure semantics. Outputs retain supplied observations and must stay private when inputs are private. Required common-runner check 1dfbc8f4e3b842c499994fe504c48af1 passes 89 tests and eleven CLI paths. All four hosted Windows/Linux Python 3.11/3.13 jobs pass. No external actions, paid calls or ledger changes.
+
+Reproducer-export verification: https://github.com/Ppetip/agent-black-box/actions/runs/36706614300

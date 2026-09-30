@@ -36,6 +36,15 @@ def main():
         if payload.get("mode") != "local-html-report" or not output.read_text(encoding="utf-8").startswith("<!doctype html>"):
             raise ValueError("report CLI must create a standalone HTML report")
         print("PASS: comparison_report.py (temporary synthetic report)")
+        reproducer = Path(directory) / "reproducer.json"
+        result = subprocess.run([sys.executable, "reduce_workflow.py", "--input",
+                                 "examples/workflow-reduction.json", "--reproducer-output", str(reproducer)],
+                                cwd=ROOT, capture_output=True, text=True, encoding="utf-8", timeout=30, check=True)
+        payload = json.loads(result.stdout)
+        saved = json.loads(reproducer.read_text(encoding="utf-8"))
+        if saved != {**payload["reduced_input"], "max_trials": payload["max_trials"]}:
+            raise ValueError("saved reproducer must preserve reduced input and trial limit")
+        print("PASS: reduce_workflow.py --reproducer-output (temporary synthetic case)")
 
 
 if __name__ == "__main__":

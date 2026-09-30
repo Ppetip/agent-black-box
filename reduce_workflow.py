@@ -50,9 +50,18 @@ def reduce_failure(data):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--input", type=Path, required=True)
+    parser.add_argument("--reproducer-output", type=Path,
+                        help="Save the reduced input to a new JSON file; existing files are never overwritten")
     args = parser.parse_args()
     try:
         result = reduce_failure(json.loads(args.input.read_text(encoding="utf-8-sig")))
+        if args.reproducer_output is not None:
+            # Serialize before opening; retain the caller's trial budget on rerun.
+            reproducer = {**result["reduced_input"], "max_trials": result["max_trials"]}
+            payload = json.dumps(reproducer, indent=2, allow_nan=False) + "\n"
+            with args.reproducer_output.open("x", encoding="utf-8", newline="\n") as output:
+                output.write(payload)
+            result["reproducer_output"] = str(args.reproducer_output)
     except (ValueError, OSError) as error:
         parser.error(str(error))
     print(json.dumps(result, indent=2))

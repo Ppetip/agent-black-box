@@ -25,7 +25,7 @@ For commands using a file under `runs/`, create that directory first (`mkdir run
 python -m unittest discover -s tests -v
 ```
 
-85 tests and ten offline CLI paths pass on Windows and Linux with Python 3.11 and 3.13 (GitHub Actions).
+89 tests and eleven offline CLI paths pass locally; hosted verification for reproducer export is pending.
 
 ## Architecture
 
@@ -163,7 +163,7 @@ In an AI Lab workspace with the optional local runner, use `python lab.py run ag
 
 ## Reduce a supplied failure case
 
-Run `python reduce_workflow.py --input examples/workflow-reduction.json` for a synthetic regression example, or provide an explicitly authorized local file. Input requires `order`, `policy_results` and `expected_action` (refund, deny, escalate or null); optional `max_steps` uses the workflow limit and `max_trials` is 1 to 200, default 100. The baseline counts as one trial. All inputs are validated before execution. The reducer uses only the built-in deterministic planner and prints JSON; it runs no external tools, writes no files and accepts no custom callbacks.
+Run `python reduce_workflow.py --input examples/workflow-reduction.json` for a synthetic regression example, or provide an explicitly authorized local file. Input requires `order`, `policy_results` and `expected_action` (refund, deny, escalate or null); optional `max_steps` uses the workflow limit and `max_trials` is 1 to 200, default 100. The baseline counts as one trial. All inputs are validated before execution. The reducer uses only the built-in deterministic planner and prints JSON; it runs no external tools and accepts no custom callbacks. Without an explicit export option, it writes no files.
 
 If the baseline already matches the expectation, status is `not-a-failure` and no deletions are attempted. Otherwise, responses are removed one at a time, preserving their order. A deletion is accepted only when both final action and workflow status equal the original failed run. This prevents replacing a wrong refund with an unrelated escalation and calling it the same outcome. Every accepted deletion restarts the scan. The report contains original indices, attempted removals, original/reduced traces and a `reduced_input` object accepted by this reducer.
 
@@ -178,3 +178,32 @@ With the optional local AI Lab workspace runner, use `python lab.py run agent-bl
 Two unittest methods enumerate a restricted synthetic space: all 85 response queues of length zero through three over timeout, null, 30-day and 90-day policy responses; step bounds 1, 2 and 3; and all four expected-action labels. This produces 1,020 complete-search cases, plus 3,060 cases with trial budgets 1, 2 and 3. A separately coded terminal-outcome oracle checks the baseline, every attempted deletion, retained indices, preserved outcome and single-deletion minimality when claimed. It does not call the production planner to calculate those expected terminal outcomes.
 
 These checks passed for the fixed 45-day order. They do not cover arbitrary queues, values, callback planners or real models, and do not establish causality or a globally smallest case. The two methods count as two tests in the suite; generated cases are not independent performance samples. Run `python -m unittest discover -s tests -p test_reduction_invariants.py -v` to reproduce them locally without network access.
+
+## Save and rerun a reduced case
+
+Create your ignored `runs` directory if needed, then run:
+
+```sh
+python reduce_workflow.py --input examples/workflow-reduction.json --reproducer-output runs/reproducer.json
+python reduce_workflow.py --input runs/reproducer.json
+```
+
+`--reproducer-output` is optional and requires a new file in an existing directory.
+The command validates and reduces the supplied input before creating the file with
+exclusive creation; an existing file, including the input file, is never overwritten.
+Invalid input, existing targets and file errors return a nonzero exit. Parent
+directories are not created automatically. A successful JSON report includes
+`reproducer_output` so the saved destination is visible.
+
+The file contains the retained response queue, order, supplied expectation and both
+the original step limit and trial budget. It is accepted directly by this reducer.
+It omits the full attempt log and original discarded responses; keep the original
+report if you need that history. A trial-limited result remains a partial reduction,
+and a matching expectation remains `not-a-failure`: saving does not establish a
+minimal case, independent ground truth or causality. Reruns execute only the built-in
+local simulator, with no external tool actions or provider calls.
+
+Exports can contain supplied observations and are not redacted. Keep authorized
+private inputs and their reproductions local in ignored storage. The sample above
+uses the checked-in synthetic fixture, not real customer data. The optional shared
+AI Lab runner does not accept this output flag; use the standalone CLI to export.

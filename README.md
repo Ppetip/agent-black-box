@@ -25,7 +25,7 @@ For commands using a file under `runs/`, create that directory first (`mkdir run
 python -m unittest discover -s tests -v
 ```
 
-89 tests and eleven offline CLI paths pass on Windows and Linux with Python 3.11 and 3.13 (GitHub Actions).
+93 tests and eleven offline CLI paths pass locally; hosted verification for trace difference location is pending.
 
 ## Architecture
 
@@ -207,3 +207,26 @@ Exports can contain supplied observations and are not redacted. Keep authorized
 private inputs and their reproductions local in ignored storage. The sample above
 uses the checked-in synthetic fixture, not real customer data. The optional shared
 AI Lab runner does not accept this output flag; use the standalone CLI to export.
+
+## Locate the first changed trace event
+
+Workflow-comparison JSON now includes
+`comparison_to_first.first_trace_difference_step` for each scenario. It is the
+zero-based index of the first event that differs from the baseline trace, or null
+when the recorded traces are identical (including the baseline itself). Use that
+index in each scenario's `workflow.trace` to inspect the event; step 0 is the first
+recorded action. If one trace ends earlier, the first missing event is a difference.
+
+The comparison uses canonical JSON of the full event, including tool observations
+and input hashes. JSON object key order does not matter, but values such as `true`
+and `1` remain distinct. Changed observations can therefore be located even when
+all chosen actions and the final outcome stay the same. Different expectation
+labels or unused queued responses alone do not change a recorded trace.
+
+This is a location aid, not a causal diagnosis or a claim that the first difference
+is responsible for failure. It performs no extra simulation or callbacks, and the
+existing action/path/call-count comparison fields keep their behavior. The field
+is available in standalone workflow_compare.py output and the full structured
+output of the local `workflow-comparison` route. The HTML cards and short runner
+summary do not display this new field yet; browser visual verification remains
+separate. Reports with authorized private observations must remain local.

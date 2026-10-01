@@ -1,9 +1,9 @@
 # Status
 
 Stage: command-line prototype with optional live Jev integration.
-Verified: 89 tests and eleven offline CLI paths pass locally; all four hosted checks pass. Jev smoke results remain historical.
+Verified: 93 tests and eleven offline CLI paths pass locally; hosted checks for this change pending. Jev smoke results remain historical.
 
-Latest: Explicit reproducer export saves a rerunnable reduced case while preserving input files and execution bounds.
+Latest: Workflow comparisons identify the first differing trace event, including observation changes that leave actions unchanged.
 
 Next: Collect independent workflow expectations and review differences in a real task-authorized trace.
 
@@ -80,3 +80,5 @@ Pricing-review verification: https://github.com/Ppetip/agent-black-box/actions/r
 Reproducer-export verification: https://github.com/Ppetip/agent-black-box/actions/runs/36706614300
 
 2026-09-30 23:03 UTC: Shared local runner now offers Budget Cortex random-baseline with fixed seed 7, budget 22 and target 0.7; full comparisons and input origin appear in private reports. All five required common checks pass (326 app tests, 33 CLI paths), plus 50 shared-runner regressions. Check run 79735bdda73e449d86dd8b4d521efcb2. App implementation unchanged; prior exact-source hosted evidence retained and this documentation update skips redundant CI. Shared runner is local AI Lab integration, not bundled in standalone repositories. No live calls or ledger changes.
+
+2026-10-01 19:09 UTC: Added comparison_to_first.first_trace_difference_step to workflow JSON. Canonical event comparison returns a zero-based index or null for matching traces, ignores key order and distinguishes booleans from numbers. Existing action/path/call deltas and simulator behavior are unchanged. Four new tests cover observations changing without action changes, a shared retry prefix, unused responses/key order/labels, and true versus 1 during a step-limited run. Common check 75d3d3b236c740108f541e1b9193078f passes 93 tests and eleven CLI paths; synthetic common-runner comparison 1dbeeda88c364bcb8b9eaf5039176807 verifies the added field in saved output. Hosted verification pending. No causal claim, extra callbacks, paid calls or ledger changes. HTML renderer unchanged; its prior browser visual check remains unverified.

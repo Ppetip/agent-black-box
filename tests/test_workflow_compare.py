@@ -22,7 +22,8 @@ class WorkflowComparisonTests(unittest.TestCase):
         self.assertEqual(result["baseline_id"], "stale")
         self.assertFalse(result["scenarios"][0]["matched_expectation"])
         self.assertEqual(result["scenarios"][1]["comparison_to_first"], {
-            "final_action_changed": True, "action_sequence_changed": True, "tool_calls_delta": 1})
+            "final_action_changed": True, "action_sequence_changed": True, "tool_calls_delta": 1,
+            "first_trace_difference_step": 0})
 
     def test_retry_difference_can_preserve_final_action(self):
         fresh = {"status": "ok", "refund_window_days": 30}

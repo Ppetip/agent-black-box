@@ -3,8 +3,9 @@
 import argparse
 import copy
 import json
+from itertools import zip_longest
 from pathlib import Path
-from app import ACTIONS
+from app import ACTIONS, canonical
 from workflow import planner, prepare_inputs, run_workflow
 
 
@@ -35,12 +36,16 @@ def compare_workflows(data, agent=planner):
         actions = [event["action"] for event in result["trace"]]
         if not results:
             baseline_action, baseline_actions, baseline_calls = result["final_action"], actions, result["tool_calls"]
+            baseline_trace = result["trace"]
+        first_difference = next((index for index, (left, right) in enumerate(
+            zip_longest(baseline_trace, result["trace"])) if canonical(left) != canonical(right)), None)
         results.append({"id": identifier, "expected_action": expected,
                         "matched_expectation": result["final_action"] == expected,
                         "comparison_to_first": {
                             "final_action_changed": result["final_action"] != baseline_action,
                             "action_sequence_changed": actions != baseline_actions,
-                            "tool_calls_delta": result["tool_calls"] - baseline_calls},
+                            "tool_calls_delta": result["tool_calls"] - baseline_calls,
+                            "first_trace_difference_step": first_difference},
                         "workflow": result})
     matched = sum(item["matched_expectation"] for item in results)
     return {"mode": "local-scenario-comparison", "baseline_id": results[0]["id"],

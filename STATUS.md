@@ -1,9 +1,9 @@
 # Status
 
 Stage: command-line prototype with optional live Jev integration.
-Verified: 93 tests and eleven offline CLI paths pass locally; all four hosted checks pass. Jev smoke results remain historical.
+Verified: 96 tests and eleven offline CLI paths pass locally; hosted checks for this change pending. Jev smoke results remain historical.
 
-Latest: Workflow comparisons identify the first differing trace event, including observation changes that leave actions unchanged.
+Latest: HTML comparison cards display the first differing step and mark its event in the expanded trace.
 
 Next: Collect independent workflow expectations and review differences in a real task-authorized trace.
 
@@ -84,3 +84,5 @@ Reproducer-export verification: https://github.com/Ppetip/agent-black-box/action
 2026-10-01 19:09 UTC: Added comparison_to_first.first_trace_difference_step to workflow JSON. Canonical event comparison returns a zero-based index or null for matching traces, ignores key order and distinguishes booleans from numbers. Existing action/path/call deltas and simulator behavior are unchanged. Four new tests cover observations changing without action changes, a shared retry prefix, unused responses/key order/labels, and true versus 1 during a step-limited run. Common check 75d3d3b236c740108f541e1b9193078f passes 93 tests and eleven CLI paths; synthetic common-runner comparison 1dbeeda88c364bcb8b9eaf5039176807 verifies the added field in saved output. All four hosted Windows/Linux Python 3.11/3.13 jobs pass. No causal claim, extra callbacks, paid calls or ledger changes. HTML renderer unchanged; its prior browser visual check remains unverified.
 
 Trace-difference verification: https://github.com/Ppetip/agent-black-box/actions/runs/36912929877
+
+2026-10-02 03:09 UTC: Finished the interrupted October 1 HTML update. Cards now show a one-based first differing step and a text marker on that event; identical traces explicitly say None. JSON indices remain zero-based. Three new structural regressions cover observation-only changes, a shared retry prefix and identical traces despite unused responses or changed expectations. Existing escaping, no-overwrite and invalid-input checks pass. Required common check 8ab0c65b0a224947ac11919aa253b02c passes 96 tests and eleven CLI paths, and remains current after resuming. Hosted verification pending. Browser visual QA remains unverified after the previously recorded runtime startup failure. No extra simulation, provider calls, permissions or data-access changes; a difference is not proof of cause.

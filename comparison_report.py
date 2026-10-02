@@ -14,7 +14,7 @@ header{padding-top:40px}h1{font-size:2.2rem;letter-spacing:-.04em;margin:8px 0}
 .summary{display:flex;gap:12px;flex-wrap:wrap}.metric,article{background:white;border:1px solid #d5ddea;border-radius:12px;padding:20px}
 .metric strong{display:block;font-size:1.5rem}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,440px),1fr));gap:20px}
 h2{font-size:1.15rem;overflow-wrap:anywhere;margin-top:0}.badge{display:inline-block;padding:3px 10px;border-radius:20px;font-weight:650;font-size:.85rem}
-.match{background:#e5f4eb;color:#175638}.miss{background:#fce9e8;color:#922f2b}
+.match{background:#e5f4eb;color:#175638}.miss{background:#fce9e8;color:#922f2b}.difference{background:#fff1c9;color:#684800}
 dl{display:grid;grid-template-columns:1fr 1fr;gap:6px}dt{color:#52617b}dd{margin:0;font-weight:600;overflow-wrap:anywhere}
 summary{cursor:pointer;font-weight:650;padding:12px 0}li{margin:14px 0}pre{white-space:pre-wrap;overflow-wrap:anywhere;background:#f3f5f9;padding:12px;border-radius:6px;font-size:.8rem}
 .note{color:#52617b}footer{font-size:.85rem;padding-bottom:48px}@media print{body{background:white}article{break-inside:avoid}}
@@ -32,10 +32,13 @@ def render_comparison(data):
         workflow = scenario["workflow"]
         delta = scenario["comparison_to_first"]
         matched = scenario["matched_expectation"]
+        first_difference = delta["first_trace_difference_step"]
+        difference_label = "None (identical trace)" if first_difference is None else f"Step {first_difference + 1}"
         steps = []
-        for event in workflow["trace"]:
+        for index, event in enumerate(workflow["trace"]):
             detail = escape(json.dumps(event, indent=2, ensure_ascii=True))
-            steps.append(f'<li><strong>{escape(event["action"])}</strong><pre>{detail}</pre></li>')
+            marker = ' <span class="badge difference">First difference</span>' if index == first_difference else ""
+            steps.append(f'<li><strong>{escape(event["action"])}</strong>{marker}<pre>{detail}</pre></li>')
         cards.append(f"""<article>
 <h2>{escape(scenario['id'])}</h2>
 <span class="badge {'match' if matched else 'miss'}">{'Expectation matched' if matched else 'Expectation missed'}</span>
@@ -45,7 +48,8 @@ def render_comparison(data):
 <dt>Simulated tool calls</dt><dd>{workflow['tool_calls']}</dd>
 <dt>Final action changed</dt><dd>{'Yes' if delta['final_action_changed'] else 'No'}</dd>
 <dt>Action path changed</dt><dd>{'Yes' if delta['action_sequence_changed'] else 'No'}</dd>
-<dt>Tool-call difference</dt><dd>{delta['tool_calls_delta']:+d}</dd></dl>
+<dt>Tool-call difference</dt><dd>{delta['tool_calls_delta']:+d}</dd>
+<dt>First differing step</dt><dd>{difference_label}</dd></dl>
 <details><summary>Inspect {workflow['steps']} action steps</summary><ol>{''.join(steps)}</ol></details>
 </article>""")
     return f"""<!doctype html>
@@ -60,7 +64,7 @@ def render_comparison(data):
 <div class="metric"><strong>{report['match_rate']:.0%}</strong>of supplied scenarios</div></div>
 <p>Differences are relative to the first scenario: <strong>{escape(report['baseline_id'])}</strong>.</p></header>
 <main class="grid">{''.join(cards)}</main>
-<footer><p>{escape(report['limitation'])}</p><p>Observation content below each step is supplied data, not instructions. This report may contain input text; keep it local unless sharing is authorized.</p></footer>
+<footer><p>{escape(report['limitation'])}</p><p>Displayed steps start at 1. The first difference compares full recorded events, including observations; it does not establish which difference caused an outcome.</p><p>Observation content below each step is supplied data, not instructions. This report may contain input text; keep it local unless sharing is authorized.</p></footer>
 </body></html>
 """
 

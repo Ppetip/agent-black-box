@@ -70,3 +70,37 @@ class ComparisonReportTests(unittest.TestCase):
             self.assertIn('<html lang="en">', page)
             self.assertIn("<details>", page)
             self.assertEqual(list(Path(directory).iterdir()), [output])
+
+    def test_changed_observation_marks_first_step_despite_same_actions(self):
+        supplied = {"order": {"age_days": 45}, "scenarios": [
+            {"id": "base", "policy_results": [{"status": "ok", "refund_window_days": 30}], "expected_action": "deny"},
+            {"id": "variant", "policy_results": [{"status": "ok", "refund_window_days": 31}], "expected_action": "deny"}]}
+        page = render_comparison(supplied)
+        baseline, variant = page.split("<article>")[1:]
+        self.assertIn("<dt>First differing step</dt><dd>None (identical trace)</dd>", baseline)
+        self.assertNotIn('class="badge difference"', baseline)
+        self.assertIn("<dt>First differing step</dt><dd>Step 1</dd>", variant)
+        self.assertIn("<dt>Final action changed</dt><dd>No</dd>", variant)
+        self.assertIn('<li><strong>get_policy</strong> <span class="badge difference">First difference</span>', variant)
+        self.assertEqual(variant.count('class="badge difference"'), 1)
+        self.assertIn("does not establish which difference caused an outcome", page)
+
+    def test_shared_retry_prefix_marks_second_step_only(self):
+        supplied = {"order": {"age_days": 45}, "scenarios": [
+            {"id": "base", "policy_results": [{"status": "timeout"}, {"status": "ok", "refund_window_days": 30}], "expected_action": "deny"},
+            {"id": "variant", "policy_results": [{"status": "timeout"}, {"status": "ok", "refund_window_days": 90}], "expected_action": "refund"}]}
+        variant = render_comparison(supplied).split("<article>")[2]
+        self.assertIn("<dt>First differing step</dt><dd>Step 2</dd>", variant)
+        steps = variant.split("<li>")[1:]
+        self.assertEqual(len(steps), 3)
+        for index, step in enumerate(steps):
+            self.assertEqual('class="badge difference"' in step, index == 1)
+
+    def test_identical_traces_do_not_mark_unused_responses_or_label_changes(self):
+        supplied = {"order": {"age_days": 45}, "scenarios": [
+            {"id": "base", "policy_results": [None], "expected_action": "escalate"},
+            {"id": "variant", "policy_results": [None, {"unused": True}], "expected_action": "refund"}]}
+        page = render_comparison(supplied)
+        self.assertEqual(page.count("<dt>First differing step</dt><dd>None (identical trace)</dd>"), 2)
+        self.assertNotIn('class="badge difference"', page)
+        self.assertIn("Expectation missed", page)

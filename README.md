@@ -25,7 +25,7 @@ For commands using a file under `runs/`, create that directory first (`mkdir run
 python -m unittest discover -s tests -v
 ```
 
-93 tests and eleven offline CLI paths pass on Windows and Linux with Python 3.11 and 3.13 (GitHub Actions).
+96 tests and eleven offline CLI paths pass locally; hosted verification for HTML difference markers is pending.
 
 ## Architecture
 
@@ -227,6 +227,10 @@ This is a location aid, not a causal diagnosis or a claim that the first differe
 is responsible for failure. It performs no extra simulation or callbacks, and the
 existing action/path/call-count comparison fields keep their behavior. The field
 is available in standalone workflow_compare.py output and the full structured
-output of the local `workflow-comparison` route. The HTML cards and short runner
-summary do not display this new field yet; browser visual verification remains
-separate. Reports with authorized private observations must remain local.
+output of the local `workflow-comparison` route. HTML cards show **First differing
+step** using numbering starting at 1, matching the expanded ordered list (JSON
+indices still start at 0). The corresponding event has a **First difference**
+marker. Identical traces explicitly say **None (identical trace)**, even when
+expectation labels differ. The short runner summary is unchanged. Structural
+HTML tests pass; browser visual verification remains pending. Reports with
+authorized private observations must remain local.

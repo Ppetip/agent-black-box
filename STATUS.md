@@ -1,7 +1,7 @@
 # Status
 
 Stage: command-line prototype with optional live Jev integration.
-Verified: 96 tests and eleven offline CLI paths pass locally; hosted checks for this change pending. Jev smoke results remain historical.
+Verified: 96 tests and eleven offline CLI paths pass locally; all four hosted checks pass. Jev smoke results remain historical.
 
 Latest: HTML comparison cards display the first differing step and mark its event in the expanded trace.
 
@@ -85,4 +85,6 @@ Reproducer-export verification: https://github.com/Ppetip/agent-black-box/action
 
 Trace-difference verification: https://github.com/Ppetip/agent-black-box/actions/runs/36912929877
 
-2026-10-02 03:09 UTC: Finished the interrupted October 1 HTML update. Cards now show a one-based first differing step and a text marker on that event; identical traces explicitly say None. JSON indices remain zero-based. Three new structural regressions cover observation-only changes, a shared retry prefix and identical traces despite unused responses or changed expectations. Existing escaping, no-overwrite and invalid-input checks pass. Required common check 8ab0c65b0a224947ac11919aa253b02c passes 96 tests and eleven CLI paths, and remains current after resuming. Hosted verification pending. Browser visual QA remains unverified after the previously recorded runtime startup failure. No extra simulation, provider calls, permissions or data-access changes; a difference is not proof of cause.
+2026-10-02 03:09 UTC: Finished the interrupted October 1 HTML update. Cards now show a one-based first differing step and a text marker on that event; identical traces explicitly say None. JSON indices remain zero-based. Three new structural regressions cover observation-only changes, a shared retry prefix and identical traces despite unused responses or changed expectations. Existing escaping, no-overwrite and invalid-input checks pass. Required common check 8ab0c65b0a224947ac11919aa253b02c passes 96 tests and eleven CLI paths, and remains current after resuming. All four hosted Windows/Linux Python 3.11/3.13 jobs pass. Browser visual QA remains unverified after the previously recorded runtime startup failure. No extra simulation, provider calls, permissions or data-access changes; a difference is not proof of cause.
+
+HTML-marker verification: https://github.com/Ppetip/agent-black-box/actions/runs/36959156662
